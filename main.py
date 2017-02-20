@@ -133,7 +133,7 @@ def run():
         c2Mejor = -1
 
         for r2 in range(r1, ROW):
-            for c2 in range(r2, maxCOL):
+            for c2 in range(c1, maxCOL):
 
                 # Si nos pasamos del maximo, salimos
                 if maximoAlcanzado(r1, c1, r2, c2):
