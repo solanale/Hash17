@@ -31,7 +31,6 @@ def read(file_name):
 def write(file_name):
     global Slices
     f = open(file_name, 'w')
-    f.write(len(Slices))
     f.write(Slices)
 
 # Busca la siguiente celda para comenzar un trozo
@@ -112,6 +111,7 @@ def run():
     global ROW, COL, Matrix, Slices
     r1, c1, r2, c2 = 0, 0, 0, 0
     trozoActual = 0
+    Slices = [0]
     read(file_in)
 
     # Hasta que nos salgamos del tablero
