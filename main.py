@@ -4,10 +4,14 @@
 
 #Files
 file_in = "data/small.in"
-file_out = "out.txt"
+file_out = "data/out.txt"
 
 #Global vars
+
+# N x M (char, n slice), 0
 global matrix
+# Slice Array, index = n slice in matrix
+global slice
 global solution
 global out
 global row
@@ -29,9 +33,16 @@ def write(file_name, solution):
     f.write(solution)
 
 def run():
-    global matrix,solution
+    global matrix, solution
+
+    solution = "3\n" \
+               "0 0 2 1\n" \
+               "0 2 2 2\n" \
+               "0 3 2 4\n"
     read(file_in)
-    #Do things
+
+    # Do things
+
     write (file_out,solution)
 
 if __name__ == '__main__':
