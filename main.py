@@ -159,8 +159,8 @@ def run():
             Slices[trozoActual] = (r1, c1, r2Mejor, c2Mejor)
 
             # Actualizamos el valor de cada celda del trozo
-            for i in range(r1, r2Mejor):
-                for j in range(c1, c2Mejor):
+            for i in range(r1, r2Mejor + 1):
+                for j in range(c1, c2Mejor + 1):
                     Matrix[i][j] = (Matrix[i][j][0], trozoActual)
 
         # Tomamos el siguiente inicio
