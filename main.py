@@ -43,13 +43,13 @@ def siguienteInicio(r1,c1):
     if(c1==(COL-1)):
         (_,used) = Matrix[r1+1][0]
         if (used>0):
-            siguienteInicio(r1+1,0)
+            return siguienteInicio(r1+1,0)
         else:
             return (r1+1),c1
     else:
         (_,used) = Matrix[r1][c1+1]
         if (used>0):
-            siguienteInicio(r1,c1+1)
+            return siguienteInicio(r1,c1+1)
         else:
             return r1,(c1+1)
 
@@ -167,10 +167,12 @@ def run():
             # Actualizamos el valor de cada celda del trozo
             for i in range(r1, r2Mejor + 1):
                 for j in range(c1, c2Mejor + 1):
+                    print "Hola"
                     Matrix[i][j] = (Matrix[i][j][0], trozoActual)
-
+            print "hola2"
         # Tomamos el siguiente inicio
         r1, c1 = siguienteInicio(r1, c1)
+        print "holi"
     # Volcamos la solución
     write(file_out)
 
