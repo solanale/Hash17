@@ -108,7 +108,7 @@ def minimoAlcanzado(tomates, setas):
 def run():
     global ROW, COL, Matrix, Slices
     r1, c1, r2, c2 = 0
-    trozoActual = 1
+    trozoActual = 0
 
     read(file_in)
 
@@ -161,7 +161,7 @@ def run():
             # Actualizamos el valor de cada celda del trozo
             for i in range(r1, r2Mejor):
                 for j in range(c1, c2Mejor):
-                    Matrix[i][j] = (_, trozoActual)
+                    Matrix[i][j] = (Matrix[i][j][0], trozoActual)
 
         # Tomamos el siguiente inicio
         r1, c1 = siguienteInicio(r1, c1) # Devuelve -1, -1 si se sale
@@ -171,5 +171,3 @@ def run():
 
 if __name__ == '__main__':
     run()
-
-
