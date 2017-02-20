@@ -122,15 +122,16 @@ def run():
         # Limite de la iteración horizontal
         maxCOL = COL
 
-        # Cantidad de tomates y setas
-        tomates = 0
-        setas = 0
-
         # Mejor trozo por el momento
         r2Mejor = -1
         c2Mejor = -1
 
         for r2 in range(r1, ROW):
+
+            # Cantidad de tomates y setas
+            setas = 0
+            tomates = 0
+
             for c2 in range(c1, maxCOL):
 
                 # Si nos pasamos del maximo, salimos
@@ -150,7 +151,6 @@ def run():
 
                 # Si alcanzamos el mínimo, actualizamos el trozo
                 if minimoAlcanzado(tomates, setas):
-
                     r2Mejor, c2Mejor = mejorOpcion(r1, c1, r2Mejor, c2Mejor, r2, c2)
                     break
 
