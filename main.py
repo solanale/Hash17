@@ -112,15 +112,18 @@ def minimoAlcanzado(tomates, setas):
     else:
         return False
 
-    def run():
-        global Row, Col, Matrix, Solution
-        r1, c1, r2, c2 = 0
-        trozoActual = 1
+def run():
+    global Row, Col, Matrix, Solution
+    r1, c1, r2, c2 = 0
+    trozoActual = 1
 
-        read(file_in)
+    read(file_in)
 
     # Hasta que nos salgamos del tablero
-    while (r1 >= 0 and r2 >= 0):
+    while (r1 >= 0 and c1 >= 0):
+
+        # Buscamos el siguiente trozo
+        trozoActual = trozoActual + 1
 
         # Límite de la iteración horizontal
         maxCol = Col
@@ -156,15 +159,24 @@ def minimoAlcanzado(tomates, setas):
                     r2Actual, c2Actual = mejorOpcion(r1, c1, r2Mejor, c2Mejor, r2, c2)
                     break
 
-        for i in range(r1, r2):
-            for j in range(c1, c2):
-                Matrix[i][j] = (_, trozoActual)
+        # Si hemos completado un trozo
+        if (r2Mejor >= 0 and c2Mejor >= 0)
 
+            # Añadimos el trozo a la solución
+            Slices[trozoActual] = (r1, c1, r2Mejor, c2Mejor)
+
+            # Actualizamos el valor de cada celda del trozo
+            for i in range(r1, r2Mejor):
+                for j in range(c1, c2Mejor):
+                    Matrix[i][j] = (_, trozoActual)
+
+        # Tomamos el siguiente inicio
         r1, c1 = siguiente_inicio(r1, c1) # Devuelve -1, -1 si se sale
 
-        write(file_out, Solution)
+    # Volcamos la solución
+    write(file_out, Solution)
 
-    if __name__ == '__main__':
-        run()
+if __name__ == '__main__':
+    run()
 
 
