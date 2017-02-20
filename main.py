@@ -28,7 +28,8 @@ def read(file_name):
     #Comprehension list, magia oscura
     Matrix = [[(ch , 0) for ch in line.strip()] for line in f]
 
-def write(file_name, Slices):
+def write(file_name):
+    global Slices
     f = open(file_name, 'w')
     f.write(len(Slices))
     f.write(Slices)
@@ -39,7 +40,7 @@ def siguienteInicio(r1,c1):
     if(r1==(ROW-1) and c1==(COL-1)):
         # Fin de la matriz
         return -1,-1
-    if(c1==(ROW-1)):
+    if(c1==(COL-1)):
         (_,used) = Matrix[r1+1][0]
         if (used>0):
             siguienteInicio(r1+1,0)
@@ -111,7 +112,6 @@ def run():
     global ROW, COL, Matrix, Slices
     r1, c1, r2, c2 = 0, 0, 0, 0
     trozoActual = 0
-
     read(file_in)
 
     # Hasta que nos salgamos del tablero
@@ -169,7 +169,7 @@ def run():
         r1, c1 = siguienteInicio(r1, c1) # Devuelve -1, -1 si se sale
 
     # Volcamos la solución
-    write(file_out, Slices)
+    write(file_out)
 
 if __name__ == '__main__':
     run()
