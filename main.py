@@ -31,7 +31,8 @@ def read(file_name):
 def write(file_name):
     global Slices
     f = open(file_name, 'w')
-    f.write(Slices)
+    print Slices
+    # f.write(Slices)
 
 # Busca la siguiente celda para comenzar un trozo
 def siguienteInicio(r1,c1):
@@ -44,13 +45,13 @@ def siguienteInicio(r1,c1):
         if (used>0):
             siguienteInicio(r1+1,0)
         else:
-            return r1+1,c1
+            return (r1+1),c1
     else:
         (_,used) = Matrix[r1][c1+1]
         if (used>0):
             siguienteInicio(r1,c1+1)
         else:
-            return r1,c1+1
+            return r1,(c1+1)
 
 # Mira si ese trozo supera el tamano permitido
 def maximoAlcanzado(r1,c1,r2,c2):
@@ -151,13 +152,15 @@ def run():
 
                 # Si alcanzamos el mínimo, actualizamos el trozo
                 if minimoAlcanzado(tomates, setas):
-                    r2Actual, c2Actual = mejorOpcion(r1, c1, r2Mejor, c2Mejor, r2, c2)
+
+                    r2Mejor, c2Mejor = mejorOpcion(r1, c1, r2Mejor, c2Mejor, r2, c2)
                     break
 
         # Si hemos completado un trozo
         if (r2Mejor >= 0 and c2Mejor >= 0):
 
             # Añadimos el trozo a la solución
+            print "anado trozo"
             Slices[0] = Slices[0] + 1
             Slices.append((r1, c1, r2Mejor, c2Mejor))
 
@@ -167,8 +170,7 @@ def run():
                     Matrix[i][j] = (Matrix[i][j][0], trozoActual)
 
         # Tomamos el siguiente inicio
-        r1, c1 = siguienteInicio(r1, c1) # Devuelve -1, -1 si se sale
-
+        r1, c1 = siguienteInicio(r1, c1)
     # Volcamos la solución
     write(file_out)
 
