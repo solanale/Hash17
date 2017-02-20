@@ -11,9 +11,8 @@ file_out = "data/out.txt"
 # N x M (char, n slice), 0
 global matrix
 # Slice Array, index = n slice in matrix
-global slice
+global slices
 global solution
-global out
 global row
 global col
 global l
