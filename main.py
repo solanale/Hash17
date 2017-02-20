@@ -13,17 +13,17 @@ global Matrix
 # Slice Array, index = n slice in Matrix
 global Slices
 global Solution
-global Row
-global Col
-global Min
-global Max
+global ROW
+global COL
+global MIN
+global MAX
 
 #Functions
 def read(file_name):
     f = open(file_name, 'r')
-    global Row, Col, Min, Max, Matrix
-    Row, Col, Min, Max = f.readline().strip().split()
-    Row, Col, Min, Max = int(Row), int(Col), int(Min), int(Max)
+    global ROW, COL, MIN, MAX, Matrix
+    ROW, COL, MIN, MAX = f.readline().strip().split()
+    ROW, COL, MIN, MAX = int(ROW), int(COL), int(MIN), int(MAX)
     #Comprehension list, magia oscura
     Matrix = [[(ch , 0) for ch in line.strip()] for line in f]
 
@@ -32,29 +32,29 @@ def write(file_name, Solution):
     f.write(Solution)
 
 # Busca la siguiente celda para comenzar un trozo
-def siguiente_inicio(r1,c1):
+def siguienteInicio(r1,c1):
     global Matrix
-    if(r1==(Row-1) and c1==(Col-1)):
+    if(r1==(ROW-1) and c1==(COL-1)):
         # Fin de la matriz
         return -1,-1
-    if(r1==(Row-1)):
+    if(r1==(ROW-1)):
         (_,used) = Matrix[0][c1+1]
         if (used>0):
-            siguiente_inicio(1,c1+1)
+            siguienteInicio(1,c1+1)
         else:
             return 0,c1+1
     else:
         (_,used) = Matrix[r1+1][c1]
         if (used>0):
-            siguiente_inicio(r1+1,c1)
+            siguienteInicio(r1+1,c1)
         else:
             return 0,c1+1
 
 # Mira si ese trozo supera el tamano permitido
 def maximoAlcanzado(r1,c1,r2,c2):
-    global Max
+    global MAX
     size = (r2-r1)*(c2-c1)
-    if (size>Max):
+    if (size>MAX):
         return True
     else:
         return False
@@ -88,13 +88,6 @@ def mejorOpcion(r1, c1, r2mejor, c2mejor, r2, c2):
             else:
                 return r2mejor, c2mejor
 
-
-def siguiente_inicio():
-    print "a"
-
-def guardar_mejor():
-    print "a"
-
 def estaEnTrozo(r, c):
 
     (_, libre) = Matrix[r][c]
@@ -105,15 +98,15 @@ def estaEnTrozo(r, c):
         return True
 
 def minimoAlcanzado(tomates, setas):
-    global Matrix, Min
+    global Matrix, MIN
 
-    if(tomates >= Min and setas >= Min):
+    if(tomates >= MIN and setas >= MIN):
         return True
     else:
         return False
 
 def run():
-    global Row, Col, Matrix, Solution
+    global ROW, COL, Matrix, Slices
     r1, c1, r2, c2 = 0
     trozoActual = 1
 
@@ -126,7 +119,7 @@ def run():
         trozoActual = trozoActual + 1
 
         # Límite de la iteración horizontal
-        maxCol = Col
+        maxCOL = COL
 
         # Cantidad de tomates y setas
         tomates = 0
@@ -136,8 +129,8 @@ def run():
         r2Mejor = -1
         c2Mejor = -1
 
-        for r2 in range(r1, Row):
-            for c2 in range(r2, maxCol):
+        for r2 in range(r1, ROW):
+            for c2 in range(r2, maxCOL):
 
                 # Si nos pasamos del máximo, salimos
                 if maximoAlcanzado(r1, c1, r2, c2):
@@ -145,7 +138,7 @@ def run():
 
                 # Si ya está en un trozo, salimos y actualizamos el límite de la iteración horizontal
                 if estaEnTrozo(r2, c2):
-                    maxCol = c2 - 1
+                    maxCOL = c2 - 1
                     break
 
                 # Actualizamos el valor de tomates o setas
@@ -160,7 +153,7 @@ def run():
                     break
 
         # Si hemos completado un trozo
-        if (r2Mejor >= 0 and c2Mejor >= 0)
+        if (r2Mejor >= 0 and c2Mejor >= 0):
 
             # Añadimos el trozo a la solución
             Slices[trozoActual] = (r1, c1, r2Mejor, c2Mejor)
@@ -171,7 +164,7 @@ def run():
                     Matrix[i][j] = (_, trozoActual)
 
         # Tomamos el siguiente inicio
-        r1, c1 = siguiente_inicio(r1, c1) # Devuelve -1, -1 si se sale
+        r1, c1 = siguienteInicio(r1, c1) # Devuelve -1, -1 si se sale
 
     # Volcamos la solución
     write(file_out, Solution)
