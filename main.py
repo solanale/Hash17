@@ -31,6 +31,7 @@ def read(file_name):
 def write(file_name):
     global Slices
     f = open(file_name, 'w')
+    print Matrix
     print Slices
     # f.write(Slices)
 
