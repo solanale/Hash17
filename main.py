@@ -127,11 +127,6 @@ def run():
         c2Mejor = -1
 
         for r2 in range(r1, ROW):
-
-            # Cantidad de tomates y setas
-            setas = 0
-            tomates = 0
-
             for c2 in range(c1, maxCOL):
 
                 # Si nos pasamos del maximo, salimos
@@ -144,10 +139,7 @@ def run():
                     break
 
                 # Actualizamos el valor de tomates o setas
-                if esTomate(r2, c2):
-                    tomates = tomates + 1
-                else:
-                    setas = setas + 1
+                tomates, setas = calculaIngredientes(r1, c1, r2, c2)
 
                 # Si alcanzamos el mínimo, actualizamos el trozo
                 if minimoAlcanzado(tomates, setas):
