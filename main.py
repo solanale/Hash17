@@ -27,9 +27,10 @@ def read(file_name):
     #Comprehension list, magia oscura
     Matrix = [[(ch , 0) for ch in line.strip()] for line in f]
 
-def write(file_name, Solution):
+def write(file_name, Slices):
     f = open(file_name, 'w')
-    f.write(Solution)
+    f.write(len(Slices))
+    f.write(Slices)
 
 # Busca la siguiente celda para comenzar un trozo
 def siguienteInicio(r1,c1):
@@ -53,7 +54,7 @@ def siguienteInicio(r1,c1):
 # Mira si ese trozo supera el tamano permitido
 def maximoAlcanzado(r1,c1,r2,c2):
     global MAX
-    size = (r2-r1)*(c2-c1)
+    size = (r2-r1+1)*(c2-c1+1)
     if (size>MAX):
         return True
     else:
@@ -167,7 +168,7 @@ def run():
         r1, c1 = siguienteInicio(r1, c1) # Devuelve -1, -1 si se sale
 
     # Volcamos la solución
-    write(file_out, Solution)
+    write(file_out, Slices)
 
 if __name__ == '__main__':
     run()
