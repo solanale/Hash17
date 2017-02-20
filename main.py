@@ -45,12 +45,13 @@ def guardar_mejor():
 def run():
     global Row, Col, Matrix, Solution
     r1, c1, r2, c2 = 0
-    maxCol
 
     read(file_in)
 
     while (r1 >= 0 and r2 >= 0):
         maxCol = Col
+        tomates = 0
+        setas = 0
         for r2 in range(r1, Row):
             for c2 in range(r2, maxCol):
                 if maximoAlcanzado(r1, c1, r2, c2):
@@ -58,8 +59,14 @@ def run():
                 if estaEnTrozo(r2, c2):
                     maxCol = c2 - 1
                     break
+                if esTomate(r2, c2):
+                    tomates = tomates + 1
+                else
+                    setas = setas + 1
+                if minimoAlcanzado(r1, c1, r2, c2):
 
-        r1, r2 = siguiente_inicio(r1, r2) # Devuelve -1, -1 si se sale
+
+        r1, c1 = siguiente_inicio(r1, c1) # Devuelve -1, -1 si se sale
 
     write(file_out, Solution)
 
