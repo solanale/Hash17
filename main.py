@@ -31,6 +31,17 @@ def write(file_name, Solution):
     f = open(file_name, 'w')
     f.write(Solution)
 
+
+def encontrar_trozo():
+    print "a"
+
+
+def siguiente_inicio():
+    print "a"
+
+def guardar_mejor():
+    print "a"
+
 def run():
     global matrix, Solution
 
@@ -40,7 +51,7 @@ def run():
                "0 3 2 4\n"
     read(file_in)
 
-    # Do things
+    #
 
     write (file_out,Solution)
 
