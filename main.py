@@ -158,7 +158,8 @@ def run():
         if (r2Mejor >= 0 and c2Mejor >= 0):
 
             # Añadimos el trozo a la solución
-            Slices[trozoActual] = (r1, c1, r2Mejor, c2Mejor)
+            Slices[0] = Slices[0] + 1
+            Slices.append((r1, c1, r2Mejor, c2Mejor))
 
             # Actualizamos el valor de cada celda del trozo
             for i in range(r1, r2Mejor + 1):
