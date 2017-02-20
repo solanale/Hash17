@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 #It's Pizza Time
 
@@ -38,18 +39,18 @@ def siguienteInicio(r1,c1):
     if(r1==(ROW-1) and c1==(COL-1)):
         # Fin de la matriz
         return -1,-1
-    if(r1==(ROW-1)):
-        (_,used) = Matrix[0][c1+1]
+    if(c1==(ROW-1)):
+        (_,used) = Matrix[r1+1][0]
         if (used>0):
-            siguienteInicio(1,c1+1)
+            siguienteInicio(r1+1,0)
         else:
-            return 0,c1+1
+            return r1+1,c1
     else:
-        (_,used) = Matrix[r1+1][c1]
+        (_,used) = Matrix[r1][c1+1]
         if (used>0):
-            siguienteInicio(r1+1,c1)
+            siguienteInicio(r1,c1+1)
         else:
-            return 0,c1+1
+            return r1,c1+1
 
 # Mira si ese trozo supera el tamano permitido
 def maximoAlcanzado(r1,c1,r2,c2):
@@ -70,7 +71,7 @@ def esTomate(r2,c2):
         return False
 
 #r2,c2 es la celda a comprobar ahora. En la primera iteracion, r2mejor y c2mejor valen -1.
-#Mejor trozo= menor nº celdas o igual nº de celdas Y mas cuadrado
+#Mejor trozo= menor n celdas o igual n de celdas Y mas cuadrado
 def mejorOpcion(r1, c1, r2mejor, c2mejor, r2, c2):
     if(r2mejor == -1):
         return r2, c2
@@ -108,7 +109,7 @@ def minimoAlcanzado(tomates, setas):
 
 def run():
     global ROW, COL, Matrix, Slices
-    r1, c1, r2, c2 = 0
+    r1, c1, r2, c2 = 0, 0, 0, 0
     trozoActual = 0
 
     read(file_in)
@@ -119,7 +120,7 @@ def run():
         # Buscamos el siguiente trozo
         trozoActual = trozoActual + 1
 
-        # Límite de la iteración horizontal
+        # Limite de la iteración horizontal
         maxCOL = COL
 
         # Cantidad de tomates y setas
@@ -133,11 +134,11 @@ def run():
         for r2 in range(r1, ROW):
             for c2 in range(r2, maxCOL):
 
-                # Si nos pasamos del máximo, salimos
+                # Si nos pasamos del maximo, salimos
                 if maximoAlcanzado(r1, c1, r2, c2):
                     break
 
-                # Si ya está en un trozo, salimos y actualizamos el límite de la iteración horizontal
+                # Si ya esta en un trozo, salimos y actualizamos el limite de la iteracion horizontal
                 if estaEnTrozo(r2, c2):
                     maxCOL = c2 - 1
                     break
