@@ -31,16 +31,32 @@ def write(file_name, Solution):
     f = open(file_name, 'w')
     f.write(Solution)
 
+# Busca la siguiente celda para comenzar un trozo
+def siguiente_inicio(r1,c1):
+    global Matrix
+    if(r1==(Row-1) and c1==(Col-1)):
 
-def encontrar_trozo():
-    print "a"
 
+    _,used = Matrix[r1+1,]
+    return -1, -1
 
-def siguiente_inicio():
-    print "a"
+# Mira si ese trozo supera el tamano permitido
+def maximoAlcanzado(r1,c1,r2,c2):
+    global Max
+    size = (r2-r1)*(c2-c1)
+    if (size>Max):
+        return True
+    else:
+        return False
 
-def guardar_mejor():
-    print "a"
+# Mira si la celda es tomate
+def esTomate(r2,c2):
+    global Matrix
+    food, _ =  Matrix[r2][c2]
+    if (food == "T"):
+        return True
+    else:
+        return False
 
 def run():
     global Row, Col, Matrix, Solution
