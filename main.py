@@ -119,9 +119,6 @@ def run():
     # Hasta que nos salgamos del tablero
     while (r1 >= 0 and c1 >= 0):
 
-        # Buscamos el siguiente trozo
-        trozoActual = trozoActual + 1
-
         # Limite de la iteración horizontal
         maxCOL = COL
 
@@ -160,6 +157,9 @@ def run():
         # Si hemos completado un trozo
         if (r2Mejor >= 0 and c2Mejor >= 0):
 
+            # Siguiente trozo
+            trozoActual = trozoActual + 1
+
             # Añadimos el trozo a la solución
             Slices[0] = Slices[0] + 1
             Slices.append((r1, c1, r2Mejor, c2Mejor))
@@ -168,8 +168,10 @@ def run():
             for i in range(r1, r2Mejor + 1):
                 for j in range(c1, c2Mejor + 1):
                     Matrix[i][j] = (Matrix[i][j][0], trozoActual)
+
         # Tomamos el siguiente inicio
         r1, c1 = siguienteInicio(r1, c1)
+
     # Volcamos la solución
     write(file_out)
 
