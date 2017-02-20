@@ -35,10 +35,20 @@ def write(file_name, Solution):
 def siguiente_inicio(r1,c1):
     global Matrix
     if(r1==(Row-1) and c1==(Col-1)):
-
-
-    _,used = Matrix[r1+1,]
-    return -1, -1
+        # Fin de la matriz
+        return -1,-1
+    if(r1==(Row-1)):
+        (_,used) = Matrix[0][c1+1]
+        if (used>0):
+            siguiente_inicio(1,c1+1)
+        else:
+            return 0,c1+1
+    else:
+        (_,used) = Matrix[r1+1][c1]
+        if (used>0):
+            siguiente_inicio(r1+1,c1)
+        else:
+            return 0,c1+1
 
 # Mira si ese trozo supera el tamano permitido
 def maximoAlcanzado(r1,c1,r2,c2):
@@ -52,7 +62,7 @@ def maximoAlcanzado(r1,c1,r2,c2):
 # Mira si la celda es tomate
 def esTomate(r2,c2):
     global Matrix
-    food, _ =  Matrix[r2][c2]
+    (food, _) =  Matrix[r2][c2]
     if (food == "T"):
         return True
     else:
