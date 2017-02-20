@@ -45,26 +45,50 @@ def guardar_mejor():
 def run():
     global Row, Col, Matrix, Solution
     r1, c1, r2, c2 = 0
+    trozoActual = 1
 
     read(file_in)
 
+    # Hasta que nos salgamos del tablero
     while (r1 >= 0 and r2 >= 0):
+
+        # Límite de la iteración horizontal
         maxCol = Col
+
+        # Cantidad de tomates y setas
         tomates = 0
         setas = 0
+
+        # Mejor trozo por el momento
+        r2Mejor = -1
+        c2Mejor = -1
+
         for r2 in range(r1, Row):
             for c2 in range(r2, maxCol):
+
+                # Si nos pasamos del máximo, salimos
                 if maximoAlcanzado(r1, c1, r2, c2):
                     break
+
+                # Si ya está en un trozo, salimos y actualizamos el límite de la iteración horizontal
                 if estaEnTrozo(r2, c2):
                     maxCol = c2 - 1
                     break
+
+                # Actualizamos el valor de tomates o setas
                 if esTomate(r2, c2):
                     tomates = tomates + 1
                 else
                     setas = setas + 1
-                if minimoAlcanzado(r1, c1, r2, c2):
 
+                # Si alcanzamos el mínimo, actualizamos el trozo
+                if minimoAlcanzado(tomates, setas):
+                    r2Actual, c2Actual = mejorOpcion(r1, c1, r2Mejor, c2Mejor, r2, c2)
+                    break
+
+        for i in range(r1, r2):
+            for j in range(c1, c2):
+                Matrix[i][j] = (_, trozoActual)
 
         r1, c1 = siguiente_inicio(r1, c1) # Devuelve -1, -1 si se sale
 
