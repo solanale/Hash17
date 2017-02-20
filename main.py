@@ -109,6 +109,16 @@ def minimoAlcanzado(tomates, setas):
     else:
         return False
 
+def calculaIngredientes(r1,c1,r2,c2):
+    tomates, setas = 0, 0
+    for x in range(r1,r2+1):
+        for y in range (c1,c2+1):
+            if esTomate(x,y):
+                tomates = tomates+1
+            else:
+                setas = setas +1
+    return tomates, setas
+
 def run():
     global ROW, COL, Matrix, Slices
     r1, c1, r2, c2 = 0, 0, 0, 0
