@@ -128,10 +128,10 @@ def segundaPasada():
             (r1, c1, r2, c2) = trozo
 
             #miramos is cabe añadir una columna mas
-            while(not maximoAlcanzado(r1, c1, r2, c2+1)):
+            while(not maximoAlcanzado(r1, c1, r2, c2+1) and c2<COL-1):
                 #si todos trozos estan libres --> los añadimos al trozo
                 if(not estanVariosEnTrozo(r1, c2+1, r2)):
-                    anadirAlTrozo(tuple(Matrix[r1,c1],2), r1, c2+1, r2, c2+1)  #o 1 --> actualizar slices
+                    anadirAlTrozo(Matrix[r1][c1][1], r1, c2+1, r2, c2+1)
                     c2 = c2+1 #he añadido una columna a mi trozo
                 else:
                     break
@@ -147,8 +147,15 @@ def estanVariosEnTrozo(r1, c1, r2):
             r1 = r1+1
     return False
 
+#añade al trozo modificando las listas
 def anadirAlTrozo(numTrozo, r1, c1, r2, c2):
-
+    global Slices, Matrix
+    r1A, c1A, _, _ = Slices[numTrozo]
+    Slices[numTrozo] = (r1A, c1A, r2, c2)       #como hacer para modificar bien tupla??
+    while(r1<=r2):
+        ingrediente, _ = Matrix[r1][c1]         #como hacer para modificar bien tupla??
+        Matrix[r1][c1] = (ingrediente, numTrozo)
+        r1 = r1+1
 
 def run():
     global ROW, COL, Matrix, Slices
@@ -204,6 +211,8 @@ def run():
 
         # Tomamos el siguiente inicio
         r1, c1 = siguienteInicio(r1, c1)
+
+    segundaPasada()
 
     # Volcamos la solución
     write(file_out)
