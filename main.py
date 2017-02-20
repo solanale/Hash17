@@ -9,32 +9,32 @@ file_out = "data/out.txt"
 #Global vars
 
 # N x M (char, n slice), 0
-global matrix
+global Matrix
 # Slice Array, index = n slice in matrix
-global slices
-global solution
-global row
-global col
-global l
-global h
+global Slices
+global Solution
+global Row
+global Col
+global Min
+global Max
 
 #Functions
 def read(file_name):
     f = open(file_name, 'r')
-    global row, col, l, h, matrix
-    row, col, l, h = f.readline().strip().split()
-    row, col, l, h = int(row), int(col), int(l), int(h)
+    global Row, Col, Min, Max, matrix
+    Row, Col, Min, Max = f.readline().strip().split()
+    Row, Col, Min, Max = int(Row), int(Col), int(Min), int(Max)
     #Comprehension list, magia oscura
     matrix = [[(ch , 0) for ch in line.strip()] for line in f]
 
-def write(file_name, solution):
+def write(file_name, Solution):
     f = open(file_name, 'w')
-    f.write(solution)
+    f.write(Solution)
 
 def run():
-    global matrix, solution
+    global matrix, Solution
 
-    solution = "3\n" \
+    Solution = "3\n" \
                "0 0 2 1\n" \
                "0 2 2 2\n" \
                "0 3 2 4\n"
@@ -42,7 +42,7 @@ def run():
 
     # Do things
 
-    write (file_out,solution)
+    write (file_out,Solution)
 
 if __name__ == '__main__':
     run()
