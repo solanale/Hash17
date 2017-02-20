@@ -4,7 +4,7 @@
 #It's Pizza Time
 
 #Files
-file_in = "data/small.in"
+file_in = "data/example.in"
 file_out = "data/out.txt"
 
 #Global vars
@@ -160,19 +160,15 @@ def run():
         if (r2Mejor >= 0 and c2Mejor >= 0):
 
             # Añadimos el trozo a la solución
-            print "anado trozo"
             Slices[0] = Slices[0] + 1
             Slices.append((r1, c1, r2Mejor, c2Mejor))
 
             # Actualizamos el valor de cada celda del trozo
             for i in range(r1, r2Mejor + 1):
                 for j in range(c1, c2Mejor + 1):
-                    print "Hola"
                     Matrix[i][j] = (Matrix[i][j][0], trozoActual)
-            print "hola2"
         # Tomamos el siguiente inicio
         r1, c1 = siguienteInicio(r1, c1)
-        print "holi"
     # Volcamos la solución
     write(file_out)
 
