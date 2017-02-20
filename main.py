@@ -68,12 +68,56 @@ def esTomate(r2,c2):
     else:
         return False
 
-def run():
-    global Row, Col, Matrix, Solution
-    r1, c1, r2, c2 = 0
-    trozoActual = 1
+#r2,c2 es la celda a comprobar ahora. En la primera iteracion, r2mejor y c2mejor valen -1.
+#Mejor trozo= menor nº celdas o igual nº de celdas Y mas cuadrado
+def mejorOpcion(r1, c1, r2mejor, c2mejor, r2, c2):
+    if(r2mejor == -1):
+        return r2, c2
+    else:
+        numCeldasMejor = (r2mejor - r1 + 1) * (c2mejor - c1 + 1)
+        numCeldasActual = (r2 - r1 + 1) * (c2 - c1 + 1)
+        if(numCeldasActual < numCeldasMejor):
+            return r2, c2
+        elif(numCeldasActual > numCeldasMejor):
+            return r2mejor, c2mejor
+        else:
+            difMejor = r2mejor - r1 + (c2mejor - c1)
+            difActual = r2 - r1 + (c2 - c1)
+            if(difActual <= difMejor):
+                return r2, c2
+            else:
+                return r2mejor, c2mejor
 
-    read(file_in)
+
+def siguiente_inicio():
+    print "a"
+
+def guardar_mejor():
+    print "a"
+
+def estaEnTrozo(r, c):
+
+    (_, libre) = Matrix[r][c]
+    # 0= no esta en ningun trozo
+    if(libre == 0):
+        return False
+    else:
+        return True
+
+def minimoAlcanzado(tomates, setas):
+    global Matrix, Min
+
+    if(tomates >= Min and setas >= Min):
+        return True
+    else:
+        return False
+
+    def run():
+        global Row, Col, Matrix, Solution
+        r1, c1, r2, c2 = 0
+        trozoActual = 1
+
+        read(file_in)
 
     # Hasta que nos salgamos del tablero
     while (r1 >= 0 and r2 >= 0):
@@ -104,7 +148,7 @@ def run():
                 # Actualizamos el valor de tomates o setas
                 if esTomate(r2, c2):
                     tomates = tomates + 1
-                else
+                else:
                     setas = setas + 1
 
                 # Si alcanzamos el mínimo, actualizamos el trozo
@@ -118,9 +162,9 @@ def run():
 
         r1, c1 = siguiente_inicio(r1, c1) # Devuelve -1, -1 si se sale
 
-    write(file_out, Solution)
+        write(file_out, Solution)
 
-if __name__ == '__main__':
-    run()
+    if __name__ == '__main__':
+        run()
 
 
