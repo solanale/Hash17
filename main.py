@@ -119,6 +119,37 @@ def calculaIngredientes(r1,c1,r2,c2):
                 setas = setas +1
     return tomates, setas
 
+def segundaPasada():
+    global Slices
+
+    #partimos del slice para intentar ampliar cada trozo
+    for trozo in Slices:
+        if(type(trozo) is not int):
+            (r1, c1, r2, c2) = trozo
+
+            #miramos is cabe añadir una columna mas
+            while(not maximoAlcanzado(r1, c1, r2, c2+1)):
+                #si todos trozos estan libres --> los añadimos al trozo
+                if(not estanVariosEnTrozo(r1, c2+1, r2)):
+                    anadirAlTrozo(tuple(Matrix[r1,c1],2), r1, c2+1, r2, c2+1)  #o 1 --> actualizar slices
+                    c2 = c2+1 #he añadido una columna a mi trozo
+                else:
+                    break
+
+            # miramos is cabe añadir una fila mas
+
+
+def estanVariosEnTrozo(r1, c1, r2):
+    while(r1<=r2):
+        if(estaEnTrozo(r1,c1)):
+            return True  #ya hemos entcontrado uno ocupado
+        else:
+            r1 = r1+1
+    return False
+
+def anadirAlTrozo(numTrozo, r1, c1, r2, c2):
+
+
 def run():
     global ROW, COL, Matrix, Slices
     r1, c1, r2, c2 = 0, 0, 0, 0
