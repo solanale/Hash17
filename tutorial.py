@@ -3,8 +3,11 @@
 
 def main():
 
-    # Open Files
-    f = open("data/small.in", 'r') # r - read, w - write, a - append, r+ both reading and writing
+    #Files
+    f = open("data/small.in", 'r+') # r - read, w - write, a - append, r+ both reading and writing
+    f.read()
+    f.write
+
 
     # Comprehension list
     Matrix = [[(ch , 0) for ch in line.strip()] for line in f]
@@ -19,7 +22,8 @@ def main():
     streetno["1"] = "Sachine Tendulkar"
 
 
-    import numpy as np
+    # numpy
+    # https://docs.scipy.org/doc/numpy-dev/user/quickstart.html
 
 
 
