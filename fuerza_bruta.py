@@ -11,6 +11,8 @@ file_out = "data/out.txt"
 
 # N x M (char, n slice), 0
 global Matrix
+# Lista con los tipos de trozos
+global tipoTrozos
 # Slice Array, index = n slice in Matrix
 global Slices
 global Solution
@@ -20,11 +22,22 @@ global MIN
 global MAX
 
 #Functions
+
+def generaTrozos(min, max):
+    for i in range(1, max):
+        for j in range(1, max):
+            if ():
+                tipoTrozos.append()
+
 def read(file_name):
     f = open(file_name, 'r')
     global ROW, COL, MIN, MAX, Matrix
     ROW, COL, MIN, MAX = f.readline().strip().split()
     ROW, COL, MIN, MAX = int(ROW), int(COL), int(MIN), int(MAX)
+
+    # Generamos la lista de formas posibles
+    generaTrozos(MIN, MAX)
+
     #Comprehension list, magia oscura
     Matrix = [[(ch , 0) for ch in line.strip()] for line in f]
 
