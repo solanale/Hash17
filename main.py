@@ -54,14 +54,6 @@ def siguienteInicio(r1,c1):
         else:
             return r1,(c1+1)
 
-# Mira si ese trozo supera el tamano permitido
-def maximoAlcanzado(r1,c1,r2,c2):
-    global MAX
-    size = (r2-r1+1)*(c2-c1+1)
-    if (size>MAX):
-        return True
-    else:
-        return False
 
 # Mira si la celda es tomate
 def esTomate(r2,c2):
@@ -109,6 +101,15 @@ def minimoAlcanzado(tomates, setas):
     else:
         return False
 
+# Mira si ese trozo supera el tamano permitido
+def maximoAlcanzado(r1, c1, r2, c2):
+    global MAX
+    size = (r2 - r1 + 1) * (c2 - c1 + 1)
+    if (size > MAX):
+        return True
+    else:
+        return False
+
 def calculaIngredientes(r1,c1,r2,c2):
     tomates, setas = 0, 0
     for x in range(r1,r2+1):
@@ -122,40 +123,56 @@ def calculaIngredientes(r1,c1,r2,c2):
 def segundaPasada():
     global Slices
 
+    #Tomamos numero de trozos y lo eliminamos de la lista para q queden solo trozos
+    numTrozos = Slices.pop(0)
+
     #partimos del slice para intentar ampliar cada trozo
     for trozo in Slices:
-        if(type(trozo) is not int):
-            (r1, c1, r2, c2) = trozo
+        (r1, c1, r2, c2) = trozo
 
-            #miramos is cabe añadir una columna mas
-            while(not maximoAlcanzado(r1, c1, r2, c2+1) and c2<COL-1):
-                #si todos trozos estan libres --> los añadimos al trozo
-                if(not estanVariosEnTrozo(r1, c2+1, r2)):
-                    anadirAlTrozo(Matrix[r1][c1][1], r1, c2+1, r2, c2+1)
-                    c2 = c2+1 #he añadido una columna a mi trozo
-                else:
-                    break
+        #if(maximoAlcanzado(r1, c1, r2, c2)):
 
-            # miramos is cabe añadir una fila mas
+        #miramos is cabe añadir una columna mas a la derecha
+        while (not maximoAlcanzado(r1, c1, r2, c2+1) and c2<COL-1):
+            #si todos trozos estan libres --> los añadimos al trozo
+            if estanLibres(r1, c2+1, r2):
+                anadirColumnaDcha(Matrix[r1][c1][1], r1, c1, r2, c2+1)
+                c2 = c2+1 #he añadido una columna a mi trozo
+            else:
+                break
+
+                # miramos is cabe añadir una fila mas
 
 
-def estanVariosEnTrozo(r1, c1, r2):
-    while(r1<=r2):
-        if(estaEnTrozo(r1,c1)):
-            return True  #ya hemos entcontrado uno ocupado
-        else:
-            r1 = r1+1
-    return False
+def estanLibres(r1, c1, r2):
+    for i in range(r1, r2+1):
+        if (estaEnTrozo(i,c1)):
+            return False #ya hemos entcontrado uno ocupado
+    return True
 
 #añade al trozo modificando las listas
-def anadirAlTrozo(numTrozo, r1, c1, r2, c2):
+def anadirColumnaDcha(numTrozo, r1, c1, r2, c2):
     global Slices, Matrix
-    r1A, c1A, _, _ = Slices[numTrozo]
-    Slices[numTrozo] = (r1A, c1A, r2, c2)       #como hacer para modificar bien tupla??
-    while(r1<=r2):
-        ingrediente, _ = Matrix[r1][c1]         #como hacer para modificar bien tupla??
-        Matrix[r1][c1] = (ingrediente, numTrozo)
-        r1 = r1+1
+
+    Slices[numTrozo] = (r1, c1, r2, c2)
+    for i in range(r1, r2+1):
+        Matrix[i][c2] = (Matrix[i][c2][0], numTrozo)
+
+#añade al trozo modificando las listas
+def anadirColumnaIzda(numTrozo, r1, c1, r2, c2):
+    global Slices, Matrix
+
+    Slices[numTrozo] = (r1, c1, r2, c2)
+    for i in range(r1, r2+1):
+        Matrix[i][c1] = (Matrix[i][c1][0], numTrozo)
+
+#añade al trozo modificando las listas
+def anadirFilaAbajo(numTrozo, r1, c1, r2, c2):
+    global Slices, Matrix
+
+    Slices[numTrozo] = (r1, c1, r2, c2)
+    for i in range(c1, c2+1):
+        Matrix[r2][i] = (Matrix[r2][i][0], numTrozo)
 
 def run():
     global ROW, COL, Matrix, Slices
