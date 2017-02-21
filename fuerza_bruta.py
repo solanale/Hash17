@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import math
+from math import ceil
+from math import floor
+
 #It's Pizza Time
 
 #Files
@@ -23,10 +27,9 @@ global MAX
 #Functions
 
 def generaTrozos(min, max):
-    for i in range(1, max):
-        for j in range(1, max):
-            if ():
-                tipoTrozos.append()
+    for i in range(1, max + 1):
+        for j in range(ceil((min) / i), floor(max / i) + 1):
+            tipoTrozos.append((i, j))
 
 def read(file_name):
     f = open(file_name, 'r')
@@ -35,7 +38,7 @@ def read(file_name):
     ROW, COL, MIN, MAX = int(ROW), int(COL), int(MIN), int(MAX)
 
     # Generamos la lista de formas posibles
-    generaTrozos(MIN, MAX)
+    generaTrozos(MIN * 2, MAX)
 
     #Comprehension list, magia oscura
     # Matrix = [[(ch , []) for ch in line.strip()] for line in f]
