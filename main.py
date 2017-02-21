@@ -229,7 +229,7 @@ def run():
         # Tomamos el siguiente inicio
         r1, c1 = siguienteInicio(r1, c1)
 
-    segundaPasada()
+    # segundaPasada()
 
     # Volcamos la solución
     write(file_out)
