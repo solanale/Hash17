@@ -78,7 +78,7 @@ def run():
     global ROW, COL, Matrix, Slices, tipoTrozos
     r1, c1, r2, c2 = 0, 0, 0, 0
     trozoActual = 0
-    Slices = [0]
+    Slices = []
     read(file_in)
 
     # Bloque
