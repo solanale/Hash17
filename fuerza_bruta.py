@@ -27,8 +27,11 @@ global MAX
 #Functions
 
 def generaTrozos(min, max):
+    global tipoTrozos
+
+    tipoTrozos = []
     for i in range(1, max + 1):
-        for j in range(ceil((min) / i), floor(max / i) + 1):
+        for j in range(int(ceil(min / i)), int(floor(max / i)) + 1):
             tipoTrozos.append((i, j))
 
 def read(file_name):
