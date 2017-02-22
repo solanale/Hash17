@@ -27,13 +27,19 @@ global MAX
 #Functions
 
 def generaTrozos(min, max):
-    global ROW, COL, tipoTrozos
-
+    global ROW, COL, tipoTrozos,Slices
+    ntrozos = 0
     tipoTrozos = []
     for i in range(1, max + 1):
         for j in range(int(ceil(min / i)), int(floor(max / i)) + 1):
             if i <= ROW and j > 0 and j <= COL:
+                Slices.append([])
+                ntrozos+=1
                 tipoTrozos.append((i, j))
+
+    # Slices[1].append("hola")
+    # Slices[1].append("adios")
+    # print Slices
 
 def read(file_name):
     f = open(file_name, 'r')
@@ -85,7 +91,7 @@ def run():
     global ROW, COL, Matrix, Slices, tipoTrozos
     r1, c1, r2, c2 = 0, 0, 0, 0
     trozoActual = 0
-    Slices = [[]]
+    Slices = []
     read(file_in)
 
     # Bloque
