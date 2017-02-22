@@ -8,7 +8,7 @@ from math import floor
 #It's Pizza Time
 
 #Files
-file_in = "data/example.in"
+file_in = "data/small.in"
 file_out = "data/out.txt"
 
 #Global vars
@@ -27,12 +27,19 @@ global MAX
 #Functions
 
 def generaTrozos(min, max):
-    global tipoTrozos
-
+    global ROW, COL, tipoTrozos,Slices
+    # ntrozos = 0
     tipoTrozos = []
     for i in range(1, max + 1):
         for j in range(int(ceil(min / i)), int(floor(max / i)) + 1):
-            tipoTrozos.append((i, j))
+            if i <= ROW and j > 0 and j <= COL:
+                Slices.append([])
+                # ntrozos+=1
+                tipoTrozos.append((i, j))
+
+    # Slices[1].append("hola")
+    # Slices[1].append("adios")
+    # print Slices
 
 def read(file_name):
     f = open(file_name, 'r')
@@ -44,21 +51,27 @@ def read(file_name):
     generaTrozos(MIN * 2, MAX)
 
     #Comprehension list, magia oscura
-    # Matrix = [[(ch , []) for ch in line.strip()] for line in f]
-    Matrix = [[(ch , 0) for ch in line.strip()] for line in f]
+    Matrix = [[(ch , []) for ch in line.strip()] for line in f]
+    # Matrix = [[(ch , 0) for ch in line.strip()] for line in f]
 
 def write(file_name):
     global Slices
     f = open(file_name, 'w')
-    print Matrix
-    print Slices
+    for linea in Matrix:
+        print linea
+
+    print ""
+
+    # for linea in Slices:
+    #     print linea
+    # print Slices
     # f.write(Slices)
 
 def encajaTrozo(r1,c1,r2,c2,indice):
     global MIN,MAX
     setas, tomates = 0,0
     for x in range(r1,r2+1):
-        for y in range (c1,c2+1):
+        for y in range(c1,c2+1):
             (food, _) = Matrix[x][y]
             if food == "T":
                 tomates+=1
@@ -69,10 +82,11 @@ def encajaTrozo(r1,c1,r2,c2,indice):
         for x in range(r1, r2 + 1):
             for y in range(c1, c2 + 1):
                 (food, trozos) = Matrix[x][y]
-                Matrix[x][y] = (food, trozos+1)
-                # Matrix[x][y] = (food, trozos.append((indice,len(Slices[indice]))))
-
-    #Si encaja se mete en slices
+                trozos.append((indice, len(Slices[indice])))
+                # Matrix[x][y] = (food, trozos+1)
+                Matrix[x][y] = (food, trozos)
+            indice += 1
+            #Si encaja se mete en slices
 
 def run():
     global ROW, COL, Matrix, Slices, tipoTrozos
@@ -87,7 +101,7 @@ def run():
         (altura, anchura) = tupla
         for x in range(0,ROW-altura):
             for y in range(0, COL-anchura):
-                encajaTrozo(x,y,x+anchura-1, y+altura-1,indice)
+                encajaTrozo(x,y,x+altura, y+anchura,indice)
 
     # Volcamos la solución
     write(file_out)
