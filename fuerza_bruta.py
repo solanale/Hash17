@@ -8,7 +8,7 @@ from math import floor
 #It's Pizza Time
 
 #Files
-file_in = "data/big.in"
+file_in = "data/small.in"
 file_out = "data/out.txt"
 
 #Global vars
@@ -28,13 +28,13 @@ global MAX
 
 def generaTrozos(min, max):
     global ROW, COL, tipoTrozos,Slices
-    ntrozos = 0
+    # ntrozos = 0
     tipoTrozos = []
     for i in range(1, max + 1):
         for j in range(int(ceil(min / i)), int(floor(max / i)) + 1):
             if i <= ROW and j > 0 and j <= COL:
                 Slices.append([])
-                ntrozos+=1
+                # ntrozos+=1
                 tipoTrozos.append((i, j))
 
     # Slices[1].append("hola")
@@ -51,8 +51,8 @@ def read(file_name):
     generaTrozos(MIN * 2, MAX)
 
     #Comprehension list, magia oscura
-    # Matrix = [[(ch , []) for ch in line.strip()] for line in f]
-    Matrix = [[(ch , 0) for ch in line.strip()] for line in f]
+    Matrix = [[(ch , []) for ch in line.strip()] for line in f]
+    # Matrix = [[(ch , 0) for ch in line.strip()] for line in f]
 
 def write(file_name):
     global Slices
@@ -82,10 +82,11 @@ def encajaTrozo(r1,c1,r2,c2,indice):
         for x in range(r1, r2 + 1):
             for y in range(c1, c2 + 1):
                 (food, trozos) = Matrix[x][y]
-                Matrix[x][y] = (food, trozos+1)
-                # Matrix[x][y] = (food, trozos.append((indice,len(Slices[indice]))))
-
-    #Si encaja se mete en slices
+                trozos.append((indice, len(Slices[indice])))
+                # Matrix[x][y] = (food, trozos+1)
+                Matrix[x][y] = (food, trozos)
+            indice += 1
+            #Si encaja se mete en slices
 
 def run():
     global ROW, COL, Matrix, Slices, tipoTrozos
