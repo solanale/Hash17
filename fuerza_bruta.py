@@ -8,7 +8,7 @@ from math import floor
 #It's Pizza Time
 
 #Files
-file_in = "data/example.in"
+file_in = "data/big.in"
 file_out = "data/out.txt"
 
 #Global vars
@@ -27,12 +27,13 @@ global MAX
 #Functions
 
 def generaTrozos(min, max):
-    global tipoTrozos
+    global ROW, COL, tipoTrozos
 
     tipoTrozos = []
     for i in range(1, max + 1):
         for j in range(int(ceil(min / i)), int(floor(max / i)) + 1):
-            tipoTrozos.append((i, j))
+            if i <= ROW and j > 0 and j <= COL:
+                tipoTrozos.append((i, j))
 
 def read(file_name):
     f = open(file_name, 'r')
@@ -50,15 +51,21 @@ def read(file_name):
 def write(file_name):
     global Slices
     f = open(file_name, 'w')
-    print Matrix
-    print Slices
+    for linea in Matrix:
+        print linea
+
+    print ""
+
+    # for linea in Slices:
+    #     print linea
+    # print Slices
     # f.write(Slices)
 
 def encajaTrozo(r1,c1,r2,c2,indice):
     global MIN,MAX
     setas, tomates = 0,0
     for x in range(r1,r2+1):
-        for y in range (c1,c2+1):
+        for y in range(c1,c2+1):
             (food, _) = Matrix[x][y]
             if food == "T":
                 tomates+=1
@@ -78,7 +85,7 @@ def run():
     global ROW, COL, Matrix, Slices, tipoTrozos
     r1, c1, r2, c2 = 0, 0, 0, 0
     trozoActual = 0
-    Slices = []
+    Slices = [[]]
     read(file_in)
 
     # Bloque
@@ -87,7 +94,7 @@ def run():
         (altura, anchura) = tupla
         for x in range(0,ROW-altura):
             for y in range(0, COL-anchura):
-                encajaTrozo(x,y,x+anchura-1, y+altura-1,indice)
+                encajaTrozo(x,y,x+altura, y+anchura,indice)
 
     # Volcamos la solución
     write(file_out)
