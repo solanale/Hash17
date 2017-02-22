@@ -4,8 +4,8 @@
 #It's Pizza Time
 
 #Files
-file_in = "data/small.in"
-file_out = "data/out.txt"
+file_in = "data/example.in"
+file_out = "data/out2.txt"
 
 #Global vars
 
@@ -31,6 +31,9 @@ def read(file_name):
 def write(file_name):
     global Slices
     f = open(file_name, 'w')
+    for linea in Matrix:
+        print linea
+    print Slices
     f.write(str(len(Slices)) + "\n")
     for slice in Slices:
         (n1,n2,n3,n4) = slice
@@ -151,25 +154,6 @@ def segundaPasada():
             else:
                 break
 
-        # miramos is cabe añadir una columna mas a la izda
-#        while (not maximoAlcanzado(r1, c1-1, r2, c2) and c1 >= 0):
-            # si todos trozos estan libres --> los añadimos al trozo
-#            if estanLibresColumnas(r1, c1 - 1, r2):
-                anadirColumnaIzda(Matrix[r1][c1][1], r1, c1-1, r2, c2)
-#                c1 = c1 - 1  # he añadido una columna a mi trozo
-#            else:
-#                break
-
-        # miramos is cabe añadir una fila mas arriba
-#        while (not maximoAlcanzado(r1-1, c1, r2, c2) and r1 >= 0):
-            # si todos trozos estan libres --> los añadimos al trozo
-#            if estanLibresFilas(c1, c2, r1 - 1):
-#                anadirFilaArriba(Matrix[r1][c1][1], r1, c1, r2 + 1, c2)
-#                r1 = r1 - 1  # he añadido una fila a mi trozo
-#            else:
-#                break
-
-
 def estanLibresColumnas(r1, c1, r2):
     for i in range(r1, r2+1):
         if (estaEnTrozo(i,c1)):
@@ -268,12 +252,21 @@ def run():
 
         # Tomamos el siguiente inicio
         r1, c1 = siguienteInicio(r1, c1)
-    print Slices
-    print Matrix
     segundaPasada()
 
     # Volcamos la solución
     write(file_out)
+
+    print "\nRendimiento:"
+    print str(len(Slices))+" trozos realizados"
+    ocupados = 0
+    for x in range(0,ROW):
+        for y in range(0, COL):
+            (_, num)=Matrix[x][y]
+            if (num>0): ocupados+=1
+    print
+    print "Cortadas "+str(ocupados)+" de "+str(ROW*COL)+ " celdas"
+
 
 if __name__ == '__main__':
     run()
