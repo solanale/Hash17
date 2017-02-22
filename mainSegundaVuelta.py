@@ -5,7 +5,7 @@
 
 #Files
 file_in = "data/small.in"
-file_out = "data/out2.txt"
+file_out = "data/out.txt"
 
 #Global vars
 
@@ -31,9 +31,10 @@ def read(file_name):
 def write(file_name):
     global Slices
     f = open(file_name, 'w')
-    print Matrix
-    print Slices
-    # f.write(Slices)
+    f.write(str(len(Slices)) + "\n")
+    for slice in Slices:
+        (n1,n2,n3,n4) = slice
+        f.write(str(n1)+" "+str(n2)+" "+str(n3)+" "+str(n4)+"\n")
 
 # Busca la siguiente celda para comenzar un trozo
 def siguienteInicio(r1,c1):
