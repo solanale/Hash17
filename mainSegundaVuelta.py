@@ -4,8 +4,8 @@
 #It's Pizza Time
 
 #Files
-file_in = "data/medium.in"
-file_out = "data/out.txt"
+file_in = "data/small.in"
+file_out = "data/out2.txt"
 
 #Global vars
 
@@ -31,11 +31,9 @@ def read(file_name):
 def write(file_name):
     global Slices
     f = open(file_name, 'w')
-    # print Matrix
-    f.write(str(Slices.pop(0))+"\n")
-    for slice in Slices:
-        (n1,n2,n3,n4) = slice
-        f.write(str(n1)+" "+str(n2)+" "+str(n3)+" "+str(n4)+"\n")
+    print Matrix
+    print Slices
+    # f.write(Slices)
 
 # Busca la siguiente celda para comenzar un trozo
 def siguienteInicio(r1,c1):
@@ -48,7 +46,7 @@ def siguienteInicio(r1,c1):
         if (used>0):
             return siguienteInicio(r1+1,0)
         else:
-            return (r1+1),c1
+            return (r1+1),0
     else:
         (_,used) = Matrix[r1][c1+1]
         if (used>0):
@@ -137,18 +135,49 @@ def segundaPasada():
         #miramos is cabe añadir una columna mas a la derecha
         while (not maximoAlcanzado(r1, c1, r2, c2+1) and c2<COL-1):
             #si todos trozos estan libres --> los añadimos al trozo
-            if estanLibres(r1, c2+1, r2):
+            if estanLibresColumnas(r1, c2+1, r2):
                 anadirColumnaDcha(Matrix[r1][c1][1], r1, c1, r2, c2+1)
                 c2 = c2+1 #he añadido una columna a mi trozo
             else:
                 break
 
-                # miramos is cabe añadir una fila mas
+        # miramos is cabe añadir una fila mas abajo
+        while (not maximoAlcanzado(r1, c1, r2+1, c2) and r2 < ROW - 1):
+            # si todos trozos estan libres --> los añadimos al trozo
+            if estanLibresFilas(c1, c2, r2+1):
+                anadirFilaAbajo(Matrix[r1][c1][1], r1, c1, r2+1, c2)
+                r2 = r2 + 1  # he añadido una fila a mi trozo
+            else:
+                break
+
+        # miramos is cabe añadir una columna mas a la izda
+#        while (not maximoAlcanzado(r1, c1-1, r2, c2) and c1 >= 0):
+            # si todos trozos estan libres --> los añadimos al trozo
+#            if estanLibresColumnas(r1, c1 - 1, r2):
+                anadirColumnaIzda(Matrix[r1][c1][1], r1, c1-1, r2, c2)
+#                c1 = c1 - 1  # he añadido una columna a mi trozo
+#            else:
+#                break
+
+        # miramos is cabe añadir una fila mas arriba
+#        while (not maximoAlcanzado(r1-1, c1, r2, c2) and r1 >= 0):
+            # si todos trozos estan libres --> los añadimos al trozo
+#            if estanLibresFilas(c1, c2, r1 - 1):
+#                anadirFilaArriba(Matrix[r1][c1][1], r1, c1, r2 + 1, c2)
+#                r1 = r1 - 1  # he añadido una fila a mi trozo
+#            else:
+#                break
 
 
-def estanLibres(r1, c1, r2):
+def estanLibresColumnas(r1, c1, r2):
     for i in range(r1, r2+1):
         if (estaEnTrozo(i,c1)):
+            return False #ya hemos entcontrado uno ocupado
+    return True
+
+def estanLibresFilas(c1, c2, r2):
+    for i in range(c1, c2+1):
+        if (estaEnTrozo(r2,i)):
             return False #ya hemos entcontrado uno ocupado
     return True
 
@@ -156,7 +185,7 @@ def estanLibres(r1, c1, r2):
 def anadirColumnaDcha(numTrozo, r1, c1, r2, c2):
     global Slices, Matrix
 
-    Slices[numTrozo] = (r1, c1, r2, c2)
+    Slices[numTrozo-1] = (r1, c1, r2, c2)
     for i in range(r1, r2+1):
         Matrix[i][c2] = (Matrix[i][c2][0], numTrozo)
 
@@ -164,7 +193,7 @@ def anadirColumnaDcha(numTrozo, r1, c1, r2, c2):
 def anadirColumnaIzda(numTrozo, r1, c1, r2, c2):
     global Slices, Matrix
 
-    Slices[numTrozo] = (r1, c1, r2, c2)
+    Slices[numTrozo-1] = (r1, c1, r2, c2)
     for i in range(r1, r2+1):
         Matrix[i][c1] = (Matrix[i][c1][0], numTrozo)
 
@@ -172,9 +201,17 @@ def anadirColumnaIzda(numTrozo, r1, c1, r2, c2):
 def anadirFilaAbajo(numTrozo, r1, c1, r2, c2):
     global Slices, Matrix
 
-    Slices[numTrozo] = (r1, c1, r2, c2)
+    Slices[numTrozo-1] = (r1, c1, r2, c2)
     for i in range(c1, c2+1):
         Matrix[r2][i] = (Matrix[r2][i][0], numTrozo)
+
+def anadirFilaArriba(numTrozo, r1, c1, r2, c2):
+    global Slices, Matrix
+
+    Slices[numTrozo-1] = (r1, c1, r2, c2)
+    for i in range(c1, c2+1):
+        Matrix[r1][i] = (Matrix[r1][i][0], numTrozo)
+
 
 def run():
     global ROW, COL, Matrix, Slices
@@ -230,8 +267,9 @@ def run():
 
         # Tomamos el siguiente inicio
         r1, c1 = siguienteInicio(r1, c1)
-
-    # segundaPasada()
+    print Slices
+    print Matrix
+    segundaPasada()
 
     # Volcamos la solución
     write(file_out)
