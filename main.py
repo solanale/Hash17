@@ -83,25 +83,30 @@ def run():
             latenciaCD = Endpoints[end](0)
             (idVideo, numPeticiones) = Peticiones[end][0]   #cogemos el video que mas requests tiene
             ganancia = (latenciaCD - latenciaCache)*numPeticiones
-            Ganancias.append(end, ganancia)
+            Ganancias.append((end, int(ganancia)))
             print Ganancias
-        sorted(Ganancias, key=lambda g: g[1])
+        sorted(Ganancias, key=lambda g: g[1], reverse=True)
         print "Ganancias ordenadas"
         print Ganancias
 
         tengoEspacio = True
-        while()
+        espacio = CAPACIDAD
+        while(tengoEspacio):
+            (end, _) = Ganancias.pop(0)
+            # saco el video seleccionado
+            idVideo = Peticiones[end][0][0]
+            if(Videos[idVideo] <= espacio):
+                Peticiones[end].pop()
+                Solucion[c].append(idVideo)
+                espacio = espacio - Videos[idVideo]
+                # tomo el siguiente video del endpoint
+                (idVideo, numPeticiones) = Peticiones[end][0]
+                ganancia = (latenciaCD - latenciaCache) * numPeticiones
+                Ganancias.append((end, int(ganancia)))
+                sorted(Ganancias, key=lambda g: g[1], reverse=True)
+            else:
+                tengoEspacio = False
 
-
-    # saco el video seleccionado
-    endpoint = ganancias.pop()[0]
-    video = peticiones[endpoint].pop()[0]
-    solucion[c].append(video)
-
-    # tomo el siguiente video del endpoint
-    peticiones =
-    ganancia =
-    ganancias.append(peticiones[endpoint][0])
 
     write (file_out)
 
