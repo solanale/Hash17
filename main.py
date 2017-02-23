@@ -87,15 +87,17 @@ def run():
     for c in range(0,len(Caches)):
         listaEnd = Caches[c]
         for (end, latenciaCache) in listaEnd:
-            latenciaCD = Endpoints[end][0]
-            (idVideo, numPeticiones) = Peticiones[end][0]   #cogemos el video que mas requests tiene
-            ganancia = (latenciaCD - latenciaCache)*numPeticiones
-            Ganancias.append((end, int(ganancia)))
+            if(len(Peticiones[end]) > 0):
+                latenciaCD = Endpoints[end][0]
+                (idVideo, numPeticiones) = Peticiones[end][0]   #cogemos el video que mas requests tiene
+                ganancia = (latenciaCD - latenciaCache)*numPeticiones
+                Ganancias.append((end, int(ganancia)))
         Ganancias = sorted(Ganancias, key=lambda g: g[1], reverse=True)
 
         tengoEspacio = True
         espacio = CAPACIDAD
         while(tengoEspacio):
+
             (end, _) = Ganancias.pop(0)
             # saco el video seleccionado
             idVideo = Peticiones[end][0][0]
@@ -104,10 +106,11 @@ def run():
                 Solucion[c].append(idVideo)
                 espacio = espacio - Videos[idVideo]
                 # tomo el siguiente video del endpoint
-                (idVideo, numPeticiones) = Peticiones[end][0]
-                ganancia = (latenciaCD - latenciaCache) * numPeticiones
-                Ganancias.append((end, int(ganancia)))
-                Ganancias = sorted(Ganancias, key=lambda g: g[1], reverse=True)
+                if (len(Peticiones[end]) > 0):
+                    (idVideo, numPeticiones) = Peticiones[end][0]
+                    ganancia = (latenciaCD - latenciaCache) * numPeticiones
+                    Ganancias.append((end, int(ganancia)))
+                    Ganancias = sorted(Ganancias, key=lambda g: g[1], reverse=True)
             else:
                 if (len(Ganancias) == 0):
                     tengoEspacio = False
