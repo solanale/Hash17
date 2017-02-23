@@ -16,7 +16,7 @@ def read(file_name):
     f = open(file_name, 'r')
 
     global NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
-    global Videos, Endpoints, Peticiones, Caches
+    global Videos, Endpoints, Peticiones, Caches, Ganancias
     NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD = f.readline().strip().split()
     print NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
     Videos = f.readline().strip().split()
@@ -26,6 +26,7 @@ def read(file_name):
     Endpoints = []
     Peticiones = []
     Caches = []
+    Ganancias = []
     for x in range(0,int(NSERVERS)):
         Caches.append([])
     for x in range(0,int(NENDPOINTS)):
@@ -69,11 +70,19 @@ def write(file_name):
     #     (n1,n2,n3,n4) = slice
     #     f.write(str(n1)+" "+str(n2)+" "+str(n3)+" "+str(n4)+"\n")
 
+def
+
 def run():
 
     # Leer fichero
     read(file_in)
 
+    for listaEnd in Caches:
+        for (end, latenciaCache) in listaEnd:
+            latenciaCD = Endpoints[end](0)
+            Peticiones
+            ganancia = (latenciaCD - latenciaCache)*
+            Ganancias.append(ganancia)      #
     # Do things
 
     write (file_out)
