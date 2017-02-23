@@ -108,7 +108,8 @@ def run():
                 Ganancias.append((end, int(ganancia)))
                 Ganancias = sorted(Ganancias, key=lambda g: g[1], reverse=True)
             else:
-                tengoEspacio = False
+                if (len(Ganancias) == 0):
+                    tengoEspacio = False
 
     print Solucion
     formatSolucion()
