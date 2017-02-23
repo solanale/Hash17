@@ -1,36 +1,40 @@
 #!/usr/bin/python
 
-#It's Pizza Time
-
 #Files
-file_in = "data/small.in"
-file_out = "data/out.txt"
+file_in = "data/example.in"
+file_out = "data/out2.txt"
 
 #Global vars
 
 # N x M (char, n slice), 0
-global matrix
-# Slice Array, index = n slice in matrix
-global slice
-global solution
-global out
-global row
-global col
-global l
-global h
+global Matrix
+# Slice Array, index = n slice in Matrix
+global Slices
+global Solution
+global ROW
+global COL
+global MIN
+global MAX
 
 #Functions
 def read(file_name):
     f = open(file_name, 'r')
-    global row, col, l, h, matrix
-    row, col, l, h = f.readline().strip().split()
-    row, col, l, h = int(row), int(col), int(l), int(h)
+    global ROW, COL, MIN, MAX, Matrix
+    ROW, COL, MIN, MAX = f.readline().strip().split()
+    ROW, COL, MIN, MAX = int(ROW), int(COL), int(MIN), int(MAX)
     #Comprehension list, magia oscura
-    matrix = [[(ch , 0) for ch in line.strip()] for line in f]
+    Matrix = [[(ch , 0) for ch in line.strip()] for line in f]
 
-def write(file_name, solution):
+def write(file_name):
+    global Slices
     f = open(file_name, 'w')
-    f.write(solution)
+    for linea in Matrix:
+        print linea
+    print Slices
+    f.write(str(len(Slices)) + "\n")
+    for slice in Slices:
+        (n1,n2,n3,n4) = slice
+        f.write(str(n1)+" "+str(n2)+" "+str(n3)+" "+str(n4)+"\n")
 
 def run():
     global matrix, solution
