@@ -8,7 +8,7 @@ file_out = "data/out.txt"
 #Global vars
 
 global NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
-global Videos, Endpoints, Peticiones, Caches
+global Videos, Endpoints, Peticiones, Caches, Ganancias
 global Solucion, Final
 
 
