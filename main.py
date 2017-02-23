@@ -45,13 +45,8 @@ def read(file_name):
     for x in range (0, int(NPETICIONES)):
         Rv, Re, Rn = f.readline().strip().split()
         Peticiones[int(Re)].append((int(Rv), int(Rn)))
-    print "Peticiones"
-    print Peticiones
-    for n in range (0, int(NENDPOINTS)):
-        print "Iteracion"
-        print Peticiones[n]
+    for n in range (0, int(NSERVERS)):
         Peticiones[n] = sorted(Peticiones[n], key=lambda x: x[1], reverse=True)
-        print Peticiones[n]
     print "Peticiones"
     print Peticiones
 
