@@ -3,6 +3,10 @@
 
 #Files
 file_in = "data/me_at_the_zoo.in"
+# file_in = "data/kittens.in"
+# file_in = "data/trending_today.in"
+# file_in = "data/videos_worth_spreading.in"
+
 file_out = "data/out.txt"
 
 #Global vars
@@ -20,11 +24,11 @@ def read(file_name):
     global Videos, Endpoints, Peticiones, Caches
     NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD = f.readline().strip().split()
     NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD = int(NVIDEOS), int(NENDPOINTS), int(NPETICIONES), int(NSERVERS), int(CAPACIDAD)
-    print NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
+    # print NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
     Videos = f.readline().strip().split()
     Videos = [int(i) for i in Videos]
-    print "Videos"
-    print Videos
+    # print "Videos"
+    # print Videos
 
     Endpoints = []
     Peticiones = []
@@ -41,18 +45,18 @@ def read(file_name):
             array.append(aux)
             Caches[int(aux[0])].append((int(x),int(aux[1])))
         Peticiones.append([])
-    print "Endpoints"
-    print Endpoints
-    print "Caches"
-    print Caches
+    # print "Endpoints"
+    # print Endpoints
+    # print "Caches"
+    # print Caches
 
     for x in range (0, int(NPETICIONES)):
         Rv, Re, Rn = f.readline().strip().split()
         Peticiones[int(Re)].append((int(Rv), int(Rn)))
     for n in range (0, int(NSERVERS)):
         Peticiones[n] = sorted(Peticiones[n], key=lambda x: x[1], reverse=True)
-    print "Peticiones"
-    print Peticiones
+    # print "Peticiones"
+    # print Peticiones
 
 def write(file_name):
     global Final
