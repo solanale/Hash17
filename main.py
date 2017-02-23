@@ -82,6 +82,10 @@ def run():
     # Leer fichero
     read(file_in)
 
+    global NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
+    global Videos, Endpoints, Peticiones, Caches, Ganancias
+    global Solucion, Final
+
     for c in range(0,len(Caches)):
         listaEnd = Caches[c]
         for (end, latenciaCache) in listaEnd:
