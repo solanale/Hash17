@@ -1,53 +1,56 @@
 #!/usr/bin/python
 
 #Files
-file_in = "data/example.in"
-file_out = "data/out2.txt"
+file_in = "data/me_at_the_zoo.in"
+file_out = "data/out.txt"
 
 #Global vars
 
-# N x M (char, n slice), 0
-global Matrix
-# Slice Array, index = n slice in Matrix
-global Slices
-global Solution
-global ROW
-global COL
-global MIN
-global MAX
+global NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
+global Videos
+
 
 #Functions
 def read(file_name):
     f = open(file_name, 'r')
-    global ROW, COL, MIN, MAX, Matrix
-    ROW, COL, MIN, MAX = f.readline().strip().split()
-    ROW, COL, MIN, MAX = int(ROW), int(COL), int(MIN), int(MAX)
+    global NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
+    global Videos, Endpoints, Peticiones
+    NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD = f.readline().strip().split()
+    print NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
+    Videos = f.readline().strip().split()
+    print Videos
+    Endpoints = []
+    for x in range(0,int(NENDPOINTS)):
+        Ld, K = f.readline().strip().split()
+        Endpoints.append((Ld, []))
+        for y in range (0, int(K)):
+            (_, array) = Endpoints[x]
+            array.append(f.readline().strip().split())
+    print Endpoints
+    Peticiones = []
+    for x in range (0, int(NPETICIONES)):
+        Rv, Re, Rn = f.readline().strip().split()
+        Peticiones.append((Rv, Re, Rn))
+    print Peticiones
     #Comprehension list, magia oscura
-    Matrix = [[(ch , 0) for ch in line.strip()] for line in f]
+    # Matrix = [[(ch , 0) for ch in line.strip()] for line in f]
 
 def write(file_name):
     global Slices
     f = open(file_name, 'w')
-    for linea in Matrix:
-        print linea
-    print Slices
     f.write(str(len(Slices)) + "\n")
     for slice in Slices:
         (n1,n2,n3,n4) = slice
         f.write(str(n1)+" "+str(n2)+" "+str(n3)+" "+str(n4)+"\n")
 
 def run():
-    global matrix, solution
 
-    solution = "3\n" \
-               "0 0 2 1\n" \
-               "0 2 2 2\n" \
-               "0 3 2 4\n"
+    # Leer fichero
     read(file_in)
 
     # Do things
 
-    write (file_out,solution)
+    write (file_out)
 
 if __name__ == '__main__':
     run()
