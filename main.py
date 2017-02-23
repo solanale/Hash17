@@ -103,8 +103,9 @@ def run():
             idVideo = Peticiones[end][0][0]
             if(Videos[idVideo] <= espacio):
                 Peticiones[end].pop()
-                Solucion[c].append(idVideo)
-                espacio = espacio - Videos[idVideo]
+                if (not(idVideo in Solucion[c])):
+                    Solucion[c].append(idVideo)
+                    espacio = espacio - Videos[idVideo]
                 # tomo el siguiente video del endpoint
                 if (len(Peticiones[end]) > 0):
                     (idVideo, numPeticiones) = Peticiones[end][0]
