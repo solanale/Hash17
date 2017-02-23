@@ -16,7 +16,7 @@ def read(file_name):
     f = open(file_name, 'r')
 
     global NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
-    global Videos, Endpoints, Peticiones
+    global Videos, Endpoints, Peticiones, Caches
     NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD = f.readline().strip().split()
     print NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
     Videos = f.readline().strip().split()
