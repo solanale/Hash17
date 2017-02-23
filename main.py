@@ -96,7 +96,7 @@ def run():
 
         tengoEspacio = True
         espacio = CAPACIDAD
-        while(tengoEspacio):
+        while(tengoEspacio and len(Ganancias) > 0):
 
             (end, _) = Ganancias.pop(0)
             # saco el video seleccionado
