@@ -52,23 +52,13 @@ def read(file_name):
     print "Peticiones"
     print Peticiones
 
-    #Comprehension list, magia oscura
-    # Matrix = [[(ch , 0) for ch in line.strip()] for line in f]
-
 def write(file_name):
     global Final
     f = open(file_name, 'w')
     f.write(str(Final.pop(0)) + "\n")
     for line in Final:
         f.write(str(line[0]) + " " + " ".join(str(x) for x in line[1]) + "\n")
-    #f write len del array
 
-    #f write
-
-    # f.write(str(len(Slices)) + "\n")
-    # for slice in Slices:
-    #     (n1,n2,n3,n4) = slice
-    #     f.write(str(n1)+" "+str(n2)+" "+str(n3)+" "+str(n4)+"\n")
 
 def formatSolucion():
     global Solucion, Final
@@ -85,6 +75,8 @@ def run():
     global NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
     global Videos, Endpoints, Peticiones, Caches, Ganancias
     global Solucion, Final
+
+    Solucion = []
 
     for c in range(0,len(Caches)):
         listaEnd = Caches[c]
@@ -115,7 +107,6 @@ def run():
                 sorted(Ganancias, key=lambda g: g[1], reverse=True)
             else:
                 tengoEspacio = False
-
 
     write (file_out)
 
