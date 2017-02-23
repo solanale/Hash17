@@ -92,8 +92,6 @@ def run():
             ganancia = (latenciaCD - latenciaCache)*numPeticiones
             Ganancias.append((end, int(ganancia)))
         Ganancias = sorted(Ganancias, key=lambda g: g[1], reverse=True)
-        print "Ganancias ordenadas"
-        print Ganancias
 
         tengoEspacio = True
         espacio = CAPACIDAD
