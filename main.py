@@ -85,8 +85,7 @@ def run():
             (idVideo, numPeticiones) = Peticiones[end][0]   #cogemos el video que mas requests tiene
             ganancia = (latenciaCD - latenciaCache)*numPeticiones
             Ganancias.append((end, int(ganancia)))
-            print Ganancias
-        sorted(Ganancias, key=lambda g: g[1], reverse=True)
+        Ganancias = sorted(Ganancias, key=lambda g: g[1], reverse=True)
         print "Ganancias ordenadas"
         print Ganancias
 
@@ -104,7 +103,7 @@ def run():
                 (idVideo, numPeticiones) = Peticiones[end][0]
                 ganancia = (latenciaCD - latenciaCache) * numPeticiones
                 Ganancias.append((end, int(ganancia)))
-                sorted(Ganancias, key=lambda g: g[1], reverse=True)
+                Ganancias = sorted(Ganancias, key=lambda g: g[1], reverse=True)
             else:
                 tengoEspacio = False
 
