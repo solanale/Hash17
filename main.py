@@ -27,6 +27,7 @@ def read(file_name):
     Endpoints = []
     Peticiones = []
     Caches = []
+    Ganancias = []
     for x in range(0,int(NSERVERS)):
         Caches.append([])
     for x in range(0,int(NENDPOINTS)):
@@ -81,7 +82,31 @@ def run():
     # Leer fichero
     read(file_in)
 
-    # Do things
+    for c in range(0,len(Caches)):
+        listaEnd = Caches[c]
+        for (end, latenciaCache) in listaEnd:
+            latenciaCD = Endpoints[end](0)
+            (idVideo, numPeticiones) = Peticiones[end][0]   #cogemos el video que mas requests tiene
+            ganancia = (latenciaCD - latenciaCache)*numPeticiones
+            Ganancias.append(end, ganancia)
+            print Ganancias
+        sorted(Ganancias, key=lambda g: g[1])
+        print "Ganancias ordenadas"
+        print Ganancias
+
+        tengoEspacio = True
+        while()
+
+
+    # saco el video seleccionado
+    endpoint = ganancias.pop()[0]
+    video = peticiones[endpoint].pop()[0]
+    solucion[c].append(video)
+
+    # tomo el siguiente video del endpoint
+    peticiones =
+    ganancia =
+    ganancias.append(peticiones[endpoint][0])
 
     write (file_out)
 
