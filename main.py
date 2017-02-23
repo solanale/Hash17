@@ -78,6 +78,9 @@ def run():
     Solucion = []
     Ganancias = []
 
+    for x in range (0, int(NSERVERS)):
+        Solucion.append([])
+
     for c in range(0,len(Caches)):
         listaEnd = Caches[c]
         for (end, latenciaCache) in listaEnd:
@@ -107,6 +110,8 @@ def run():
             else:
                 tengoEspacio = False
 
+    print Solucion
+    formatSolucion()
     write (file_out)
 
 if __name__ == '__main__':
