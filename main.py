@@ -93,6 +93,16 @@ def run():
         while()
 
 
+    # saco el video seleccionado
+    endpoint = ganancias.pop()[0]
+    video = peticiones[endpoint].pop()[0]
+    solucion[c].append(video)
+
+    # tomo el siguiente video del endpoint
+    peticiones =
+    ganancia =
+    ganancias.append(peticiones[endpoint][0])
+
     write (file_out)
 
 if __name__ == '__main__':
