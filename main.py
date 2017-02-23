@@ -19,8 +19,10 @@ def read(file_name):
     global NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
     global Videos, Endpoints, Peticiones, Caches
     NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD = f.readline().strip().split()
+    NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD = int(NVIDEOS), int(NENDPOINTS), int(NPETICIONES), int(NSERVERS), int(CAPACIDAD)
     print NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
     Videos = f.readline().strip().split()
+    Videos = [int(i) for i in Videos]
     print "Videos"
     print Videos
 
@@ -35,6 +37,7 @@ def read(file_name):
         for y in range (0, int(K)):
             (_, array) = Endpoints[x]
             aux = f.readline().strip().split()
+            aux = [int(i) for i in aux]
             array.append(aux)
             Caches[int(aux[0])].append((int(x),int(aux[1])))
         Peticiones.append([])
