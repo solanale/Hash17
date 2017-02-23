@@ -27,17 +27,16 @@ def read(file_name):
     Endpoints = []
     Peticiones = []
     Caches = []
-    Ganancias = []
     for x in range(0,int(NSERVERS)):
         Caches.append([])
     for x in range(0,int(NENDPOINTS)):
         Ld, K = f.readline().strip().split()
-        Endpoints.append((Ld, []))
+        Endpoints.append((int(Ld), []))
         for y in range (0, int(K)):
             (_, array) = Endpoints[x]
             aux = f.readline().strip().split()
             array.append(aux)
-            Caches[int(aux[0])].append((x,aux[1]))
+            Caches[int(aux[0])].append((int(x),int(aux[1])))
         Peticiones.append([])
     print "Endpoints"
     print Endpoints
@@ -77,11 +76,12 @@ def run():
     global Solucion, Final
 
     Solucion = []
+    Ganancias = []
 
     for c in range(0,len(Caches)):
         listaEnd = Caches[c]
         for (end, latenciaCache) in listaEnd:
-            latenciaCD = Endpoints[end](0)
+            latenciaCD = Endpoints[end][0]
             (idVideo, numPeticiones) = Peticiones[end][0]   #cogemos el video que mas requests tiene
             ganancia = (latenciaCD - latenciaCache)*numPeticiones
             Ganancias.append((end, int(ganancia)))
