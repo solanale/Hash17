@@ -77,13 +77,21 @@ def run():
     # Leer fichero
     read(file_in)
 
-    for listaEnd in Caches:
+    for c in range(0,len(Caches)):
+        listaEnd = Caches[c]
         for (end, latenciaCache) in listaEnd:
             latenciaCD = Endpoints[end](0)
-            Peticiones
-            ganancia = (latenciaCD - latenciaCache)*
-            Ganancias.append(ganancia)      #
-    # Do things
+            (idVideo, numPeticiones) = Peticiones[end][0]   #cogemos el video que mas requests tiene
+            ganancia = (latenciaCD - latenciaCache)*numPeticiones
+            Ganancias.append(end, ganancia)
+            print Ganancias
+        sorted(Ganancias, key=lambda g: g[1])
+        print "Ganancias ordenadas"
+        print Ganancias
+
+        tengoEspacio = True
+        while()
+
 
     write (file_out)
 
