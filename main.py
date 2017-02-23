@@ -36,8 +36,7 @@ def read(file_name):
             aux = f.readline().strip().split()
             array.append(aux)
             Caches[int(aux[0])].append((x,aux[1]))
-
-        Peticiones.append(0)
+        Peticiones.append([])
     print "Endpoints"
     print Endpoints
     print "Caches"
@@ -45,7 +44,14 @@ def read(file_name):
 
     for x in range (0, int(NPETICIONES)):
         Rv, Re, Rn = f.readline().strip().split()
-        Peticiones[int(Re)] = (Rv, Rn)
+        Peticiones[int(Re)].append((int(Rv), int(Rn)))
+    print "Peticiones"
+    print Peticiones
+    for n in range (0, int(NPETICIONES)):
+        print "Iteracion"
+        print Peticiones[n]
+        Peticiones[n] = sorted(Peticiones[n], key=lambda x: x[1], reverse=True)
+        print Peticiones[n]
     print "Peticiones"
     print Peticiones
 
