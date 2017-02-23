@@ -94,9 +94,8 @@ def run():
                 Ganancias.append((end, int(ganancia)))
         Ganancias = sorted(Ganancias, key=lambda g: g[1], reverse=True)
 
-        tengoEspacio = True
         espacio = CAPACIDAD
-        while(tengoEspacio and len(Ganancias) > 0):
+        while(len(Ganancias) > 0):
 
             (end, _) = Ganancias.pop(0)
             # saco el video seleccionado
