@@ -66,7 +66,8 @@ def formatSolucion():
     global Solucion, Final
     Final = [0]
     for x in range(0, len(Solucion)):
-        Final.append([x, Solucion[x]])
+        if len(Solucion[x]) > 0:
+            Final.append([x, Solucion[x]])
     Final[0] = len(Final)-1
 
 def run():
