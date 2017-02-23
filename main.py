@@ -9,6 +9,7 @@ file_out = "data/out.txt"
 
 global NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
 global Videos, Endpoints, Peticiones, Caches
+global Solucion, Final
 
 
 #Functions
@@ -16,7 +17,7 @@ def read(file_name):
     f = open(file_name, 'r')
 
     global NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
-    global Videos, Endpoints, Peticiones, Caches, Ganancias
+    global Videos, Endpoints, Peticiones, Caches
     NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD = f.readline().strip().split()
     print NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
     Videos = f.readline().strip().split()
@@ -55,22 +56,26 @@ def read(file_name):
     # Matrix = [[(ch , 0) for ch in line.strip()] for line in f]
 
 def write(file_name):
-
+    global Final
     f = open(file_name, 'w')
-
+    f.write(str(Final.pop(0)) + "\n")
+    for line in Final:
+        f.write(str(line[0]) + " " + " ".join(str(x) for x in line[1]) + "\n")
     #f write len del array
 
     #f write
-
-
-
 
     # f.write(str(len(Slices)) + "\n")
     # for slice in Slices:
     #     (n1,n2,n3,n4) = slice
     #     f.write(str(n1)+" "+str(n2)+" "+str(n3)+" "+str(n4)+"\n")
 
-def
+def formatSolucion():
+    global Solucion, Final
+    Final = [0]
+    for x in range(0, len(Solucion)):
+        Final.append([x, Solucion[x]])
+    Final[0] = len(Final)-1
 
 def run():
 
