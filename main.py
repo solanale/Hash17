@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import numpy as np
+
 #Files
-file_in = "data/me_at_the_zoo.in"
-# file_in = "data/kittens.in"
-# file_in = "data/trending_today.in"
-# file_in = "data/videos_worth_spreading.in"
+file_in = "data/a_example.in"
+# file_in = "data/b_should_be_easy.in"
+# file_in = "data/c_no_hurry.in"
+# file_in = "data/d_metropolis.in"
+# file_in = "data/e_high_bonus.in"
 
 file_out = "data/out.txt"
 
@@ -18,46 +21,13 @@ global Solucion, Final
 
 #Functions
 def read(file_name):
-    f = open(file_name, 'r')
-
-    global NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
-    global Videos, Endpoints, Peticiones, Caches
-    NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD = f.readline().strip().split()
-    NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD = int(NVIDEOS), int(NENDPOINTS), int(NPETICIONES), int(NSERVERS), int(CAPACIDAD)
-    # print NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
-    Videos = f.readline().strip().split()
-    Videos = [int(i) for i in Videos]
-    # print "Videos"
-    # print Videos
-
-    Endpoints = []
-    Peticiones = []
-    Caches = []
-    for x in range(0,int(NSERVERS)):
-        Caches.append([])
-    for x in range(0,int(NENDPOINTS)):
-        Ld, K = f.readline().strip().split()
-        Endpoints.append((int(Ld), []))
-        for y in range (0, int(K)):
-            (_, array) = Endpoints[x]
-            aux = f.readline().strip().split()
-            aux = [int(i) for i in aux]
-            array.append(aux)
-            Caches[int(aux[0])].append((int(x),int(aux[1])))
-        Peticiones.append([])
-    # print "Endpoints"
-    # print Endpoints
-    # print "Caches"
-    # print Caches
-
-    for x in range (0, int(NPETICIONES)):
-        Rv, Re, Rn = f.readline().strip().split()
-        Peticiones[int(Re)].append((int(Rv), int(Rn)))
-    for n in range (0, int(NSERVERS)):
-        Peticiones[n] = sorted(Peticiones[n], key=lambda x: x[1], reverse=True)
-    # print "Peticiones"
-    # print Peticiones
-
+    
+    with open(file_name, 'r') as f:
+        
+        data = [[int(d) for d in l.split()] for l in f]
+    
+    return data
+    
 def write(file_name):
     global Final
     f = open(file_name, 'w')
@@ -74,54 +44,14 @@ def formatSolucion():
             Final.append([x, Solucion[x]])
     Final[0] = len(Final)-1
 
-def run():
+def main():
 
     # Leer fichero
-    read(file_in)
-
-    global NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
-    global Videos, Endpoints, Peticiones, Caches, Ganancias
-    global Solucion, Final
-
-    Solucion = []
-    Ganancias = []
-
-    for x in range (0, int(NSERVERS)):
-        Solucion.append([])
-
-    for c in range(0,len(Caches)):
-        listaEnd = Caches[c]
-        for (end, latenciaCache) in listaEnd:
-            if(len(Peticiones[end]) > 0):
-                latenciaCD = Endpoints[end][0]
-                (idVideo, numPeticiones) = Peticiones[end][0]   #cogemos el video que mas requests tiene
-                ganancia = (latenciaCD - latenciaCache)*numPeticiones
-                Ganancias.append((end, int(ganancia)))
-        Ganancias = sorted(Ganancias, key=lambda g: g[1], reverse=True)
-
-        espacio = CAPACIDAD
-        while(len(Ganancias) > 0):
-
-            (end, _) = Ganancias.pop(0)
-            # saco el video seleccionado
-            idVideo = Peticiones[end][0][0]
-            if(Videos[idVideo] <= espacio):
-                Peticiones[end].pop()
-                if (not(idVideo in Solucion[c])):
-                    Solucion[c].append(idVideo)
-                    espacio = espacio - Videos[idVideo]
-                # tomo el siguiente video del endpoint
-                if (len(Peticiones[end]) > 0):
-                    (idVideo, numPeticiones) = Peticiones[end][0]
-                    ganancia = (latenciaCD - latenciaCache) * numPeticiones
-                    Ganancias.append((end, int(ganancia)))
-                    Ganancias = sorted(Ganancias, key=lambda g: g[1], reverse=True)
-
-    print Solucion
-    formatSolucion()
-    write (file_out)
+    data = read(file_in)
+    
+    print(data)
 
 if __name__ == '__main__':
-    run()
+    main()
 
 
