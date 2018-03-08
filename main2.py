@@ -1,145 +1,129 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+import sys
+import numpy as np
+
 #Files
-file_in = "data/me_at_the_zoo.in"
-# file_in = "data/kittens.in"
-# file_in = "data/trending_today.in"
-# file_in = "data/videos_worth_spreading.in"
+files = [
+    ("data/a_example.in", "data/a_out2.in"),
+    ("data/b_should_be_easy.in", "data/b_out2.in"),
+    ("data/c_no_hurry.in", "data/c_out2.in"),
+    ("data/d_metropolis.in", "data/d_out2.in"),
+    ("data/e_high_bonus.in", "data/e_out2.in"),
+]
 
-file_out = "data/out.txt"
-
-#Global vars
-
-global NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
-global Videos, Endpoints, Peticiones, Caches, Ganancias, Rendimiento
-global Solucion, Final
-
+global R, C, F, N, B, T
 
 #Functions
 def read(file_name):
-    f = open(file_name, 'r')
+    
+    global R, C, F, N, B, T
+    
+    with open(file_name, 'r') as f:
+        
+        R, C, F, N, B, T = np.array(f.readline().split()).astype(int)
+        
+        data = np.array([[int(d) for d in l.split()] for l in f])
+    
+    return data
 
-    global NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
-    global Videos, Endpoints, Peticiones, Caches, Ganancias, Rendimiento
-    NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD = f.readline().strip().split()
-    NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD = int(NVIDEOS), int(NENDPOINTS), int(NPETICIONES), int(NSERVERS), int(CAPACIDAD)
-    # print NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
-    Videos = f.readline().strip().split()
-    Videos = [int(i) for i in Videos]
-    # print "Videos"
-    # print Videos
+def print_rides(file_out, vehicles):
+    
+    with open(file_out, 'w') as f: 
+        
+        for v in range(vehicles.shape[0]):
+            
+            print(vehicles[v][0], end=" ")
+            f.write("{} ".format(vehicles[v][0]))
+            
+            for ride in range(1, vehicles[v][0] + 1):
+                print(vehicles[v][ride], end=" ")
+                f.write("{} ".format(vehicles[v][ride]))
+                
+            print("")
+            f.write("\n")
 
-    Endpoints = []
-    Peticiones = []
-    Caches = []
-    for x in range(0,int(NSERVERS)):
-        Caches.append([])
-    for x in range(0,int(NENDPOINTS)):
-        Ld, K = f.readline().strip().split()
-        Endpoints.append((int(Ld), []))
-        for y in range (0, int(K)):
-            (_, array) = Endpoints[x]
-            aux = f.readline().strip().split()
-            aux = [int(i) for i in aux]
-            array.append(aux)
-            Caches[int(aux[0])].append((int(x),int(aux[1])))
-        Peticiones.append([])
-    # print "Endpoints"
-    # print Endpoints
-    # print "Caches"
-    # print Caches
+def ride_value(data, pos, time):
+    
+    correct = False
+    
+    wait = max(0, data[4] - time)
+    
+    route = abs(data[0] - data[2]) + abs(data[1] - data[3])
+    start = abs(pos[0] - data[0]) + abs(pos[1] - data[1])
+    dist = route + start
+    
+    return time + wait + dist <= data[5], wait + dist
 
-    for x in range (0, int(NPETICIONES)):
-        Rv, Re, Rn = f.readline().strip().split()
-        Peticiones[int(Re)].append((int(Rv), int(Rn)))
-    for n in range (0, int(NSERVERS)):
-        Peticiones[n] = sorted(Peticiones[n], key=lambda x: x[1], reverse=True)
-    # print "Peticiones"
-    # print Peticiones
+def run(file_in, file_out):
+    
+    global R, C, F, N, B, T
+    
+    # Read file
+    data = read(file_in)
+    
+    #print(R, C, F, N, B, T)
+    
+    # for the vehicles rides
+    vehicles = np.array(
+        [[0 for n in range(N + 1)] for v in range(F)]).astype(int)
+    
+    data2 = np.zeros((data.shape[0], data.shape[1] + 1), dtype=int)
+    for i in range(data.shape[0]):
+        data2[i] = np.append(data[i], [i])
+    
+    data = data2[data2[:,4].argsort()]
+    
+    free = [True for i in range(data.shape[0])]
+    
+    for vehicle in range(F):
+        has_time = True
+        pos = (0, 0)
+        time = 0
+        while has_time:
+            
+            # take first free
+            found = False
+            actual_ride = 0
+            while not found and actual_ride < data.shape[0]:
+                if free[actual_ride]:
+                    found, actual_time = ride_value(data[actual_ride],
+                                                    pos,
+                                                    time)
+                actual_ride += 1
+                
+            
+            if not found:
+                has_time = False
+            else:
+                actual_ride -= 1
+                for ride in range(actual_ride + 1, data.shape[0]):
+                    if free[ride]:
+                        ok, ride_time = ride_value(data[ride],
+                                                   pos,
+                                                   time)
+                        if ok and ride_time < actual_time:
+                            actual_ride = ride
+                            actual_time = ride_time
+                
+                # asign ride to vehicle
+                vehicle_rides = vehicles[vehicle][0]
+                vehicles[vehicle][vehicle_rides + 1] = data[actual_ride][6]
+                vehicles[vehicle][0] += 1
+                pos = (data[actual_ride][2], data[actual_ride][3])
+                time += actual_time
+                free[actual_ride] = False
+    
+    print_rides(file_out, vehicles)
 
-def write(file_name):
-    global Final
-    f = open(file_name, 'w')
-    f.write(str(Final.pop(0)) + "\n")
-    for line in Final:
-        f.write(str(line[0]) + " " + " ".join(str(x) for x in line[1]) + "\n")
-
-
-def formatSolucion():
-    global Solucion, Final
-    Final = [0]
-    for x in range(0, len(Solucion)):
-        if len(Solucion[x]) > 0:
-            Final.append([x, Solucion[x]])
-    Final[0] = len(Final)-1
-
-def run():
-
-    # Leer fichero
-    read(file_in)
-
-    global NVIDEOS, NENDPOINTS, NPETICIONES, NSERVERS, CAPACIDAD
-    global Videos, Endpoints, Peticiones, Caches, Ganancias, Rendimiento
-    global Solucion, Final
-
-    Solucion = []
-    Ganancias = []
-    Rendimiento = []
-
-    for x in range (0, len(Caches)):
-        Rendimiento.append([])
-
-    for x in range(0, len(Caches)):
-        for y in range (0, len(Videos)):
-            Rendimiento[x].append(0)
-
-    print Rendimiento
-
-    for c in range(0, len(Caches)):
-        for (end,lat) in Caches[c]:
-            for (Vid,Rep) in Peticiones[end]:
-                (_,sum) = Rendimiento[c][Vid]
-                Rendimiento[c][Vid] = (Vid,sum+((Endpoints[end][0]-lat)*Rep))
-
-    print Rendimiento
-
-    for x in range (0, int(NSERVERS)):
-        Solucion.append([])
-
-    for c in range(0,len(Caches)):
-        listaEnd = Caches[c]
-        for (end, latenciaCache) in listaEnd:
-            if(len(Peticiones[end]) > 0):
-                latenciaCD = Endpoints[end][0]
-                (idVideo, numPeticiones) = Peticiones[end][0]   #cogemos el video que mas requests tiene
-                ganancia = (latenciaCD - latenciaCache)*numPeticiones
-                Ganancias.append((end, int(ganancia)))
-        Ganancias = sorted(Ganancias, key=lambda g: g[1], reverse=True)
-
-        espacio = CAPACIDAD
-        while(len(Ganancias) > 0):
-
-            (end, _) = Ganancias.pop(0)
-            # saco el video seleccionado
-            idVideo = Peticiones[end][0][0]
-            if(Videos[idVideo] <= espacio):
-                Peticiones[end].pop()
-                if (not(idVideo in Solucion[c])):
-                    Solucion[c].append(idVideo)
-                    espacio = espacio - Videos[idVideo]
-                # tomo el siguiente video del endpoint
-                if (len(Peticiones[end]) > 0):
-                    (idVideo, numPeticiones) = Peticiones[end][0]
-                    ganancia = (latenciaCD - latenciaCache) * numPeticiones
-                    Ganancias.append((end, int(ganancia)))
-                    Ganancias = sorted(Ganancias, key=lambda g: g[1], reverse=True)
-
-    print Solucion
-    formatSolucion()
-    write (file_out)
+def main():
+    
+    for file_in, file_out in files:
+        run(file_in, file_out)
 
 if __name__ == '__main__':
-    run()
+    main()
 
 

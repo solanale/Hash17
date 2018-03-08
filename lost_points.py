@@ -6,11 +6,11 @@ import sys
 import numpy as np
 
 files = [
-    ("data/a_example.in", "data/a_out.in"),
-    ("data/b_should_be_easy.in", "data/b_out.in"),
-    ("data/c_no_hurry.in", "data/c_out.in"),
-    ("data/d_metropolis.in", "data/d_out.in"),
-    ("data/e_high_bonus.in", "data/e_out.in"),
+    ("data/a_example.in", "data/a_lost_v2_out.in"),
+    ("data/b_should_be_easy.in", "data/b_lost_v2_out.in"),
+    ("data/c_no_hurry.in", "data/c_lost_v2_out.in"),
+    ("data/d_metropolis.in", "data/d_lost_v2_out.in"),
+    ("data/e_high_bonus.in", "data/e_lost_v2_out.in"),
 ]
 
 global R, C, F, N, B, T
@@ -44,17 +44,47 @@ def print_rides(file_out, vehicles):
             print("")
             f.write("\n")
 
+# Second version
 def ride_value(data, pos, time):
     
-    correct = False
-    
-    wait = max(0, data[4] - time)
-    
-    route = abs(data[0] - data[2]) + abs(data[1] - data[3])
     start = abs(pos[0] - data[0]) + abs(pos[1] - data[1])
-    dist = route + start
+    wait = max(0, data[4] - (time + start))
+    route = abs(data[0] - data[2]) + abs(data[1] - data[3])
     
-    return time + wait + dist <= data[5], wait + dist
+    return time + start + wait + route <= data[5], start + wait + route
+
+# Third version
+def lost_in_transfer_v1(data, pos, actual_time):
+    
+    time_to_go = abs(pos[0] - data[0]) + abs(pos[1] - data[1])
+    wait = max(0, data[4] - (actual_time + time_to_go))
+    bonus = B if actual_time + time_to_go <= data[4] else 0
+    route = abs(data[0] - data[2]) + abs(data[1] - data[3])
+    
+    on_time = actual_time + time_to_go + wait + route <= data[5]
+    lost_points = time_to_go + wait - bonus
+    next_time = time_to_go + wait + route
+    
+    return on_time, lost_points, next_time
+
+# Worst --> They don't give bonus if you don't finish
+def lost_in_transfer_v2(data, pos, actual_time):
+    
+    time_to_go = abs(pos[0] - data[0]) + abs(pos[1] - data[1])
+    wait = max(0, data[4] - (actual_time + time_to_go))
+    bonus = B if actual_time + time_to_go <= data[4] else 0
+    route = abs(data[0] - data[2]) + abs(data[1] - data[3])
+    
+    on_time = actual_time + time_to_go + wait + route <= data[5]
+    if on_time:
+        lost_points = time_to_go + wait - bonus
+    else:
+        lost_points = time_to_go + wait + route - bonus
+    
+    used_time = time_to_go + wait + route
+    out_of_time = actual_time + used_time <= T
+    
+    return out_of_time, lost_points, used_time
 
 def run(file_in, file_out):
     
@@ -83,9 +113,10 @@ def run(file_in, file_out):
             actual_ride = 0
             while not found and actual_ride < data.shape[0]:
                 if free[actual_ride]:
-                    found, actual_time = ride_value(data[actual_ride],
-                                                    pos,
-                                                    time)
+                    found, lost_points, actual_time = lost_in_transfer(
+                                                        data[actual_ride],
+                                                        pos,
+                                                        time)
                 actual_ride += 1
                 
             
@@ -95,12 +126,14 @@ def run(file_in, file_out):
                 actual_ride -= 1
                 for ride in range(actual_ride + 1, data.shape[0]):
                     if free[ride]:
-                        ok, ride_time = ride_value(data[ride],
-                                                   pos,
-                                                   time)
-                        if ok and ride_time < actual_time:
+                        ok, ride_lost_points, ride_time = lost_in_transfer(
+                                                            data[ride],
+                                                            pos,
+                                                            time)
+                        if ok and ride_lost_points < lost_points:
                             actual_ride = ride
                             actual_time = ride_time
+                            lost_points = ride_lost_points
                 
                 # asign ride to vehicle
                 vehicle_rides = vehicles[vehicle][0]

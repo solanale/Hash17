@@ -5,12 +5,13 @@ from __future__ import print_function
 import sys
 import numpy as np
 
+#Files
 files = [
-    ("data/a_example.in", "data/a_out.in"),
-    ("data/b_should_be_easy.in", "data/b_out.in"),
-    ("data/c_no_hurry.in", "data/c_out.in"),
-    ("data/d_metropolis.in", "data/d_out.in"),
-    ("data/e_high_bonus.in", "data/e_out.in"),
+    ("data/a_example.in", "data/a_out3.in"),
+    ("data/b_should_be_easy.in", "data/b_out3.in"),
+    ("data/c_no_hurry.in", "data/c_out3.in"),
+    ("data/d_metropolis.in", "data/d_out3.in"),
+    ("data/e_high_bonus.in", "data/e_out3.in"),
 ]
 
 global R, C, F, N, B, T
@@ -48,13 +49,11 @@ def ride_value(data, pos, time):
     
     correct = False
     
-    wait = max(0, data[4] - time)
-    
-    route = abs(data[0] - data[2]) + abs(data[1] - data[3])
     start = abs(pos[0] - data[0]) + abs(pos[1] - data[1])
-    dist = route + start
+    wait = max(0, data[4] - (time + start))
+    route = abs(data[0] - data[2]) + abs(data[1] - data[3])
     
-    return time + wait + dist <= data[5], wait + dist
+    return time + start + wait + route <= data[5], start + wait + route
 
 def run(file_in, file_out):
     
@@ -69,7 +68,12 @@ def run(file_in, file_out):
     vehicles = np.array(
         [[0 for n in range(N + 1)] for v in range(F)]).astype(int)
     
-    #data = data[data[:,4].argsort()]
+    data2 = np.zeros((data.shape[0], data.shape[1] + 1), dtype=int)
+    for i in range(data.shape[0]):
+        data2[i] = np.append(data[i], [i])
+    
+    data = data2[data2[:,4].argsort()]
+    
     free = [True for i in range(data.shape[0])]
     
     for vehicle in range(F):
@@ -104,7 +108,7 @@ def run(file_in, file_out):
                 
                 # asign ride to vehicle
                 vehicle_rides = vehicles[vehicle][0]
-                vehicles[vehicle][vehicle_rides + 1] = actual_ride
+                vehicles[vehicle][vehicle_rides + 1] = data[actual_ride][6]
                 vehicles[vehicle][0] += 1
                 pos = (data[actual_ride][2], data[actual_ride][3])
                 time += actual_time
